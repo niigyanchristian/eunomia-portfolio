@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
 import { Navbar } from './Navbar'
 
 const renderNavbar = () => {
@@ -86,5 +87,93 @@ describe('Navbar', () => {
     renderNavbar()
     const menuItems = screen.getAllByRole('listitem')
     expect(menuItems).toHaveLength(5)
+  })
+
+  it('should render the hamburger menu button', () => {
+    renderNavbar()
+    const hamburgerButton = screen.getByRole('button', { name: /toggle mobile menu/i })
+    expect(hamburgerButton).toBeInTheDocument()
+    expect(hamburgerButton).toHaveClass('navbar-hamburger')
+  })
+
+  it('should have correct aria attributes on hamburger button', () => {
+    renderNavbar()
+    const hamburgerButton = screen.getByRole('button', { name: /toggle mobile menu/i })
+    expect(hamburgerButton).toHaveAttribute('aria-label', 'Toggle mobile menu')
+    expect(hamburgerButton).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('should toggle mobile menu when hamburger button is clicked', async () => {
+    const user = userEvent.setup()
+    renderNavbar()
+    const hamburgerButton = screen.getByRole('button', { name: /toggle mobile menu/i })
+    const menu = screen.getByRole('list')
+
+    expect(menu).not.toHaveClass('navbar-menu-open')
+    expect(hamburgerButton).toHaveAttribute('aria-expanded', 'false')
+
+    await user.click(hamburgerButton)
+
+    expect(menu).toHaveClass('navbar-menu-open')
+    expect(hamburgerButton).toHaveAttribute('aria-expanded', 'true')
+
+    await user.click(hamburgerButton)
+
+    expect(menu).not.toHaveClass('navbar-menu-open')
+    expect(hamburgerButton).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('should not render overlay when menu is closed', () => {
+    renderNavbar()
+    const overlay = document.querySelector('.navbar-overlay')
+    expect(overlay).not.toBeInTheDocument()
+  })
+
+  it('should render overlay when menu is open', async () => {
+    const user = userEvent.setup()
+    renderNavbar()
+    const hamburgerButton = screen.getByRole('button', { name: /toggle mobile menu/i })
+
+    await user.click(hamburgerButton)
+
+    const overlay = document.querySelector('.navbar-overlay')
+    expect(overlay).toBeInTheDocument()
+    expect(overlay).toHaveClass('navbar-overlay')
+  })
+
+  it('should close menu when overlay is clicked', async () => {
+    const user = userEvent.setup()
+    renderNavbar()
+    const hamburgerButton = screen.getByRole('button', { name: /toggle mobile menu/i })
+    const menu = screen.getByRole('list')
+
+    await user.click(hamburgerButton)
+    expect(menu).toHaveClass('navbar-menu-open')
+
+    const overlay = document.querySelector('.navbar-overlay')
+    await user.click(overlay)
+
+    expect(menu).not.toHaveClass('navbar-menu-open')
+  })
+
+  it('should close menu when a navigation link is clicked', async () => {
+    const user = userEvent.setup()
+    renderNavbar()
+    const hamburgerButton = screen.getByRole('button', { name: /toggle mobile menu/i })
+    const menu = screen.getByRole('list')
+
+    await user.click(hamburgerButton)
+    expect(menu).toHaveClass('navbar-menu-open')
+
+    const homeLink = screen.getByRole('link', { name: 'Home' })
+    await user.click(homeLink)
+
+    expect(menu).not.toHaveClass('navbar-menu-open')
+  })
+
+  it('should render three hamburger lines', () => {
+    renderNavbar()
+    const hamburgerLines = document.querySelectorAll('.hamburger-line')
+    expect(hamburgerLines).toHaveLength(3)
   })
 })
