@@ -12,7 +12,7 @@ export const Home = () => {
     <section className="home">
       <div className="home-container">
         <div className="hero">
-          <h1 className="hero-title">John Doe</h1>
+          <h1 className="hero-title">Welcome to My Portfolio</h1>
           <h2 className="hero-subtitle">Full Stack Developer & UI/UX Enthusiast</h2>
           <p className="hero-summary">
             Passionate about building elegant, performant web applications that solve real-world problems.
