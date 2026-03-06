@@ -16,10 +16,10 @@ export const About = () => {
         <h1 className="about-title">About Me</h1>
 
         <article className="about-intro">
-          <h2>Hello, I'm John Doe</h2>
+          <h2>Hello, I&apos;m John Doe</h2>
           <p>
-            I'm a passionate Full Stack Developer with a keen eye for design and a drive to create
-            exceptional digital experiences. With years of experience in web development, I've helped
+            I&apos;m a passionate Full Stack Developer with a keen eye for design and a drive to create
+            exceptional digital experiences. With years of experience in web development, I&apos;ve helped
             businesses and individuals bring their ideas to life through clean, efficient code and
             intuitive user interfaces.
           </p>
@@ -29,12 +29,12 @@ export const About = () => {
           <h2>Background</h2>
           <p>
             My journey in tech started during college, where I discovered my love for problem-solving
-            through code. Since then, I've worked on diverse projects ranging from e-commerce platforms
+            through code. Since then, I&apos;ve worked on diverse projects ranging from e-commerce platforms
             to interactive web applications. I believe in continuous learning and staying current with
             the latest technologies and best practices.
           </p>
           <p>
-            When I'm not coding, you'll find me exploring new technologies, contributing to open-source
+            When I&apos;m not coding, you&apos;ll find me exploring new technologies, contributing to open-source
             projects, or sharing knowledge with the developer community through blog posts and tutorials.
           </p>
         </article>
