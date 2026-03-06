@@ -1,0 +1,18 @@
+.skills {
+  padding: 4rem 2rem;
+}
+
+.skills-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.skills h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.skills p {
+  font-size: 1.25rem;
+  color: #666;
+}
