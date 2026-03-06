@@ -6,27 +6,27 @@
       "task_type": "qa_validation",
       "recommended_model": "haiku",
       "title": "Run all project tests and identify failures",
-      "description": "Run the complete test suite using Vitest. Execute 'npm test' or 'npx vitest run' to run all test files. Report which tests pass and which fail, including error messages and stack traces for any failures.",
+      "description": "Execute the complete test suite using 'npm test' or 'npx vitest run'. Report all test results including which tests pass and which fail. For any failures, capture the full error messages and stack traces.",
       "dependencies": [],
       "acceptance_criteria": [
         "All test files are executed",
-        "Test results are clearly reported",
-        "Any failures are documented with error details"
+        "Test results are reported with pass/fail status",
+        "Any failures include error messages and stack traces"
       ],
-      "filename": "package.json",
+      "filename": "vitest.config.js",
       "language": "typescript"
     },
     {
-      "task_id": "FIX-001",
+      "task_id": "BUGFIX-001",
       "task_type": "bugfix",
       "recommended_model": "sonnet",
-      "title": "Fix failing tests",
-      "description": "Based on the test failures identified in QA-001, fix any failing tests. Read the failing test files and the corresponding source files they test. Common issues to check: missing imports, incorrect component structure, async/await issues, mock setup problems, DOM queries that don't match rendered output. Update test files or source code as needed to make tests pass while maintaining test integrity.",
+      "title": "Fix all failing tests",
+      "description": "Based on the test failures identified in QA-001, fix all failing tests. Read the failing test files (in src/components/, src/pages/, src/sections/) and their corresponding source files. Common issues to check: missing imports, incorrect component props, outdated test assertions, DOM query mismatches. Update either the test files or source code as needed to make tests pass. Do not modify working tests.",
       "dependencies": ["QA-001"],
       "acceptance_criteria": [
-        "All previously failing tests now pass",
-        "No existing passing tests are broken",
-        "Test fixes maintain proper test coverage"
+        "All identified test failures are addressed",
+        "Test fixes maintain test validity and coverage",
+        "Source code changes (if any) preserve existing functionality"
       ],
       "filename": "src/",
       "language": "typescript"
@@ -36,14 +36,14 @@
       "task_type": "qa_validation",
       "recommended_model": "haiku",
       "title": "Verify all tests pass",
-      "description": "Run the complete test suite again using 'npm test' or 'npx vitest run' to verify all tests now pass. Confirm zero test failures.",
-      "dependencies": ["FIX-001"],
+      "description": "Run the complete test suite again using 'npm test' or 'npx vitest run' to verify all tests now pass. Confirm zero test failures and report final test results.",
+      "dependencies": ["BUGFIX-001"],
       "acceptance_criteria": [
-        "All tests pass with no failures",
+        "All tests pass with zero failures",
         "Test suite completes successfully",
-        "Exit code is 0"
+        "Final test report shows 100% pass rate"
       ],
-      "filename": "package.json",
+      "filename": "vitest.config.js",
       "language": "typescript"
     }
   ]
