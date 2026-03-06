@@ -45,3 +45,12 @@
 - If the UI does not match expectations, fix the code and re-screenshot before finishing.
 - Save screenshots to `./screenshots/` relative to the project root.
 - Stop the dev server when you are done screenshotting.
+
+## Testing with Vitest/Jest
+- Write tests in files named `*.test.ts`, `*.test.tsx`, `*.spec.ts`, or `*.spec.tsx`.
+- Use descriptive test names in `describe`/`it` blocks.
+- Test both happy paths and edge cases.
+- Use `vi.mock()` (Vitest) or `jest.mock()` (Jest) for external dependencies.
+- For React components, use `@testing-library/react` — test behavior, not implementation.
+- Prefer `getByRole`, `getByText` over `getByTestId` for accessibility.
+- Run tests with: `npx vitest run <test_file>` or `npx jest <test_file>`
