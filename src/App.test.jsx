@@ -78,7 +78,7 @@ describe('App', () => {
 
   it('should render Home page by default', () => {
     render(<App />)
-    const homeHeading = screen.getByRole('heading', { name: /Welcome to My Portfolio/i })
+    const homeHeading = screen.getByRole('heading', { name: /John Doe/i })
     expect(homeHeading).toBeInTheDocument()
   })
 

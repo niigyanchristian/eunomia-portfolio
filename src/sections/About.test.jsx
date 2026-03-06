@@ -120,20 +120,26 @@ describe('About', () => {
   })
 
   it('should create link with correct href for resume download', () => {
-    const linkElement = {
-      href: '',
-      download: '',
-      click: vi.fn(),
-    }
-    const createElementSpy = vi.spyOn(document, 'createElement').mockReturnValue(linkElement)
+    let capturedLink = null
+    const originalCreateElement = document.createElement.bind(document)
+    const createElementSpy = vi.spyOn(document, 'createElement').mockImplementation((tagName) => {
+      const element = originalCreateElement(tagName)
+      if (tagName === 'a') {
+        capturedLink = element
+        const originalClick = element.click.bind(element)
+        element.click = vi.fn(originalClick)
+      }
+      return element
+    })
 
     renderAbout()
     const resumeButton = screen.getByRole('button')
     fireEvent.click(resumeButton)
 
-    expect(linkElement.href).toBe('/resume.pdf')
-    expect(linkElement.download).toBe('John_Doe_Resume.pdf')
-    expect(linkElement.click).toHaveBeenCalled()
+    expect(capturedLink).not.toBeNull()
+    expect(capturedLink.href).toContain('/resume.pdf')
+    expect(capturedLink.download).toBe('John_Doe_Resume.pdf')
+    expect(capturedLink.click).toHaveBeenCalled()
 
     createElementSpy.mockRestore()
   })
