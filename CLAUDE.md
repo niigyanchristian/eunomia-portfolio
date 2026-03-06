@@ -43,7 +43,7 @@
 - Read the screenshot to visually evaluate the result.
 - Check: layout correctness, text readability, spacing, colors, responsive structure.
 - If the UI does not match expectations, fix the code and re-screenshot before finishing.
-- Save screenshots to `./screenshots/` relative to the project root.
+- Save screenshots to `.eunomia/screenshots/developer/` relative to the project root.
 - Stop the dev server when you are done screenshotting.
 
 ## Testing with Vitest/Jest
