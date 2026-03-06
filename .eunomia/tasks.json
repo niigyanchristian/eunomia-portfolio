@@ -3,34 +3,35 @@
   "tasks": [
     {
       "task_id": "REQ-001",
-      "task_type": "modify",
-      "recommended_model": "opus",
-      "title": "Redesign UI with modern, visually compelling styles",
-      "description": "Redesign the portfolio UI with modern, polished aesthetics. Steps: 1) Read existing files in src/pages/, src/sections/, src/components/ to understand current structure. 2) Research contemporary portfolio design trends (modern color palettes, clean layouts, generous whitespace, modern typography, subtle animations). 3) Update global styles in src/index.css and src/App.css. 4) Redesign all page styles: src/pages/Home.css, About.css, Projects.css, Skills.css, Contact.css. 5) Update component styles: src/components/Navbar.css, Footer.css, src/sections/Contact.css. 6) Ensure responsive design across mobile/tablet/desktop using modern CSS (flexbox, grid, media queries). 7) Maintain accessibility standards. 8) Update JSX files if needed for layout improvements. 9) Update or verify existing tests in src/components/, src/pages/, src/sections/ still pass after visual changes. If tests fail due to DOM changes, update them to match new structure while maintaining coverage. 10) Follow screenshot workflow: start dev server, take screenshots of Home, About, Projects pages, verify visual quality, stop server.",
+      "task_type": "enhancement",
+      "recommended_model": "sonnet",
+      "title": "Build out Contact Me page with form and design",
+      "description": "Read existing Contact files (src/sections/Contact.jsx, src/sections/Contact.css, src/pages/Contact.jsx, src/pages/Contact.css) to understand current structure. Enhance the Contact section with: 1) A contact form containing name, email, and message input fields with proper HTML5 validation and error states, 2) Social/contact links section (email, LinkedIn, GitHub, or other relevant platforms), 3) Polished, modern styling that matches the design system used in other portfolio sections (Home, About, Projects). The form should handle client-side validation with visual feedback. Write or update tests in src/sections/Contact.test.jsx to cover form rendering, field validation, user interactions (typing, submission), and error handling. Ensure components are accessible (proper labels, ARIA attributes).",
       "dependencies": [],
       "acceptance_criteria": [
-        "All page and component styles modernized with contemporary design",
-        "Responsive design works on mobile, tablet, desktop",
-        "Accessibility maintained (semantic HTML, ARIA, color contrast)",
-        "All tests pass (updated if needed for new DOM structure)",
-        "Screenshots confirm modern, visually compelling UI"
+        "Contact form displays name, email, and message fields with labels",
+        "Form validation works for required fields and email format",
+        "Social/contact links are visible and styled consistently",
+        "Styling matches the portfolio design system with proper spacing and colors",
+        "Tests written/updated cover form functionality and validation",
+        "Form shows validation errors to users appropriately"
       ],
-      "filename": "src/index.css",
-      "language": "css"
+      "filename": "src/sections/Contact.jsx",
+      "language": "typescript"
     },
     {
       "task_id": "QA-001",
       "task_type": "qa_validation",
       "recommended_model": "haiku",
-      "title": "Validate UI redesign maintains functionality",
-      "description": "Run the complete test suite to verify the UI redesign did not break functionality. Execute 'npm test' or 'npx vitest run'. All tests should pass. Report any failures with full error messages.",
+      "title": "Validate Contact page implementation",
+      "description": "Run the Contact section test suite using 'npx vitest run src/sections/Contact.test.jsx' to validate the contact form, validation logic, social links, and styling. All tests must pass with zero failures. Check that form fields render correctly, validation triggers properly, and user interactions work as expected. Report any test failures with complete error messages and stack traces.",
       "dependencies": ["REQ-001"],
       "acceptance_criteria": [
-        "All tests pass",
-        "No regressions in component functionality",
-        "Navigation and interaction features work correctly"
+        "All Contact section tests pass",
+        "No test failures or errors",
+        "Form validation behaves correctly in tests"
       ],
-      "filename": "vitest.config.js",
+      "filename": "src/sections/Contact.test.jsx",
       "language": "typescript"
     }
   ]
