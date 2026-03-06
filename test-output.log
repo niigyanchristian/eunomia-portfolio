@@ -1,4 +1,224 @@
 
 > eunomia-portfolio@1.0.0 test
-> vitest --run
+> vitest
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90m/Users/one-don/.eunomia/worktrees/eunomia-portfolio/task-15[39m
+
+[90mstderr[2m | src/sections/Home.test.jsx[2m > [22m[2mHome[2m > [22m[2mshould render the home section
+[22m[39m⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+[90mstderr[2m | src/components/Navbar.test.jsx[2m > [22m[2mNavbar[2m > [22m[2mshould render the navbar
+[22m[39m⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+[90mstderr[2m | src/App.test.jsx[2m > [22m[2mApp[2m > [22m[2mshould render the App component
+[22m[39m⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ [32m✓[39m src/sections/Home.test.jsx [2m([22m[2m10 tests[22m[2m)[22m[32m 276[2mms[22m[39m
+ [32m✓[39m src/components/Footer.test.jsx [2m([22m[2m14 tests[22m[2m)[22m[33m 305[2mms[22m[39m
+ [32m✓[39m src/sections/Projects.test.jsx [2m([22m[2m40 tests[22m[2m)[22m[33m 301[2mms[22m[39m
+Not implemented: navigation to another Document
+Not implemented: navigation to another Document
+ [32m✓[39m src/sections/About.test.jsx [2m([22m[2m19 tests[22m[2m)[22m[33m 363[2mms[22m[39m
+ [32m✓[39m src/components/Navbar.test.jsx [2m([22m[2m11 tests[22m[2m)[22m[33m 396[2mms[22m[39m
+ [31m❯[39m src/App.test.jsx [2m([22m[2m36 tests[22m[2m | [22m[31m8 failed[39m[2m)[22m[33m 529[2mms[22m[39m
+     [32m✓[39m should render the App component[32m 151[2mms[22m[39m
+     [32m✓[39m should render Navbar component[32m 18[2mms[22m[39m
+     [32m✓[39m should render Footer component[32m 16[2mms[22m[39m
+     [32m✓[39m should have main-content class on main element[32m 13[2mms[22m[39m
+     [32m✓[39m should have App class on root div[32m 6[2mms[22m[39m
+     [32m✓[39m should render all navigation links[32m 83[2mms[22m[39m
+     [32m✓[39m should have correct href values for navigation links[32m 35[2mms[22m[39m
+     [32m✓[39m should render footer with social links[32m 33[2mms[22m[39m
+     [32m✓[39m should render Home page by default[32m 11[2mms[22m[39m
+     [32m✓[39m should maintain proper layout structure[32m 2[2mms[22m[39m
+     [32m✓[39m should have semantic HTML structure with proper landmarks[32m 1[2mms[22m[39m
+     [32m✓[39m should have main element with proper id for skip links[32m 5[2mms[22m[39m
+     [32m✓[39m should have proper ARIA labels on footer social links[32m 23[2mms[22m[39m
+     [32m✓[39m should have external link attributes on footer social links[32m 21[2mms[22m[39m
+     [32m✓[39m should have proper navigation role[32m 5[2mms[22m[39m
+     [32m✓[39m should have proper contentinfo role for footer[32m 5[2mms[22m[39m
+     [32m✓[39m should have heading hierarchy on home page[32m 8[2mms[22m[39m
+     [32m✓[39m should use semantic list structure for navigation[32m 1[2mms[22m[39m
+     [32m✓[39m should have accessible link text in navigation[32m 23[2mms[22m[39m
+[31m     [31m×[31m should render with desktop viewport width[39m[32m 8[2mms[22m[39m
+[31m     [31m×[31m should render with tablet viewport width[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m should render with mobile viewport width[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m should maintain full viewport height[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m should use flexbox layout for responsive structure[39m[32m 4[2mms[22m[39m
+[31m     [31m×[31m should make main content flexible to fill available space[39m[32m 5[2mms[22m[39m
+     [32m✓[39m should be accessible at various viewport widths[32m 3[2mms[22m[39m
+[31m     [31m×[31m should maintain responsive layout with navbar container[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m should render navbar with sticky positioning[39m[32m 5[2mms[22m[39m
+     [32m✓[39m should have responsive footer layout[32m 1[2mms[22m[39m
+     [32m✓[39m should use nav element for navigation[32m 1[2mms[22m[39m
+     [32m✓[39m should use main element for main content[32m 1[2mms[22m[39m
+     [32m✓[39m should use footer element for page footer[32m 1[2mms[22m[39m
+     [32m✓[39m should have properly nested semantic structure[32m 1[2mms[22m[39m
+     [32m✓[39m should use ul/li elements in navigation menu[32m 1[2mms[22m[39m
+     [32m✓[39m should contain accessible links with href attributes[32m 21[2mms[22m[39m
+     [32m✓[39m should have appropriate page structure for screen readers[32m 1[2mms[22m[39m
+[90mstderr[2m | src/sections/Contact.test.jsx[2m > [22m[2mContact Component[2m > [22m[2mForm Submission[2m > [22m[2mshould show error message on fetch error
+[22m[39mForm submission error: Error: Network error
+    at [90m/Users/one-don/.eunomia/worktrees/eunomia-portfolio/task-15/[39msrc/sections/Contact.test.jsx:424:42
+    at file:///Users/one-don/.eunomia/workspace/eunomia-portfolio/node_modules/[4m@vitest/runner[24m/dist/index.js:145:11
+    at file:///Users/one-don/.eunomia/workspace/eunomia-portfolio/node_modules/[4m@vitest/runner[24m/dist/index.js:915:26
+    at file:///Users/one-don/.eunomia/workspace/eunomia-portfolio/node_modules/[4m@vitest/runner[24m/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///Users/one-don/.eunomia/workspace/eunomia-portfolio/node_modules/[4m@vitest/runner[24m/dist/index.js:1209:10)
+    at file:///Users/one-don/.eunomia/workspace/eunomia-portfolio/node_modules/[4m@vitest/runner[24m/dist/index.js:1653:37
+    at Traces.$ (file:///Users/one-don/.eunomia/workspace/eunomia-portfolio/node_modules/[4mvitest[24m/dist/chunks/traces.CCmnQaNT.js:142:27)
+    at trace (file:///Users/one-don/.eunomia/workspace/eunomia-portfolio/node_modules/[4mvitest[24m/dist/chunks/test.B8ej_ZHS.js:239:21)
+    at runTest (file:///Users/one-don/.eunomia/workspace/eunomia-portfolio/node_modules/[4m@vitest/runner[24m/dist/index.js:1653:12)
+
+ [32m✓[39m src/sections/Contact.test.jsx [2m([22m[2m34 tests[22m[2m)[22m[33m 2316[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 8 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp - Responsive Behavior[2m > [22mshould render with desktop viewport width
+[31m[1mError[22m: [2mexpect([22m[31melement[31m[2m).toHaveStyle()[22m
+
+[32m- Expected[31m
+[31m+ Received[31m
+
+[32m- width: 100%;[31m[39m
+[36m [2m❯[22m src/App.test.jsx:[2m239:17[22m[39m
+    [90m237| [39m
+    [90m238| [39m    [34mexpect[39m(app)[33m.[39m[34mtoBeInTheDocument[39m()
+    [90m239| [39m    [34mexpect[39m(app)[33m.[39m[34mtoHaveStyle[39m([32m'width: 100%'[39m)
+    [90m   | [39m                [31m^[39m
+    [90m240| [39m  })
+    [90m241| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp - Responsive Behavior[2m > [22mshould render with tablet viewport width
+[31m[1mError[22m: [2mexpect([22m[31melement[31m[2m).toHaveStyle()[22m
+
+[32m- Expected[31m
+[31m+ Received[31m
+
+[32m- width: 100%;[31m[39m
+[36m [2m❯[22m src/App.test.jsx:[2m253:17[22m[39m
+    [90m251| [39m
+    [90m252| [39m    [34mexpect[39m(app)[33m.[39m[34mtoBeInTheDocument[39m()
+    [90m253| [39m    [34mexpect[39m(app)[33m.[39m[34mtoHaveStyle[39m([32m'width: 100%'[39m)
+    [90m   | [39m                [31m^[39m
+    [90m254| [39m  })
+    [90m255| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp - Responsive Behavior[2m > [22mshould render with mobile viewport width
+[31m[1mError[22m: [2mexpect([22m[31melement[31m[2m).toHaveStyle()[22m
+
+[32m- Expected[31m
+[31m+ Received[31m
+
+[32m- width: 100%;[31m[39m
+[36m [2m❯[22m src/App.test.jsx:[2m267:17[22m[39m
+    [90m265| [39m
+    [90m266| [39m    [34mexpect[39m(app)[33m.[39m[34mtoBeInTheDocument[39m()
+    [90m267| [39m    [34mexpect[39m(app)[33m.[39m[34mtoHaveStyle[39m([32m'width: 100%'[39m)
+    [90m   | [39m                [31m^[39m
+    [90m268| [39m  })
+    [90m269| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp - Responsive Behavior[2m > [22mshould maintain full viewport height
+[31m[1mError[22m: [2mexpect([22m[31melement[31m[2m).toHaveStyle()[22m
+
+[32m- Expected[31m
+[31m+ Received[31m
+
+[32m- min-height: 100vh;[31m[39m
+[36m [2m❯[22m src/App.test.jsx:[2m274:17[22m[39m
+    [90m272| [39m    [35mconst[39m app [33m=[39m screen[33m.[39m[34mgetByRole[39m([32m'main'[39m)[33m.[39m[34mclosest[39m([32m'.App'[39m)
+    [90m273| [39m
+    [90m274| [39m    [34mexpect[39m(app)[33m.[39m[34mtoHaveStyle[39m([32m'min-height: 100vh'[39m)
+    [90m   | [39m                [31m^[39m
+    [90m275| [39m  })
+    [90m276| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp - Responsive Behavior[2m > [22mshould use flexbox layout for responsive structure
+[31m[1mError[22m: [2mexpect([22m[31melement[31m[2m).toHaveStyle()[22m
+
+[32m- Expected[31m
+[31m+ Received[31m
+
+[32m- display: flex;[31m
+[31m+ display: block;[31m[39m
+[36m [2m❯[22m src/App.test.jsx:[2m281:17[22m[39m
+    [90m279| [39m    [35mconst[39m app [33m=[39m container[33m.[39m[34mquerySelector[39m([32m'.App'[39m)
+    [90m280| [39m
+    [90m281| [39m    [34mexpect[39m(app)[33m.[39m[34mtoHaveStyle[39m([32m'display: flex'[39m)
+    [90m   | [39m                [31m^[39m
+    [90m282| [39m    [34mexpect[39m(app)[33m.[39m[34mtoHaveStyle[39m([32m'flex-direction: column'[39m)
+    [90m283| [39m  })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp - Responsive Behavior[2m > [22mshould make main content flexible to fill available space
+[31m[1mError[22m: [2mexpect([22m[31melement[31m[2m).toHaveStyle()[22m
+
+[32m- Expected[31m
+[31m+ Received[31m
+
+[32m- flex: 1 1 0%;[31m[39m
+[36m [2m❯[22m src/App.test.jsx:[2m289:25[22m[39m
+    [90m287| [39m    [35mconst[39m mainContent [33m=[39m container[33m.[39m[34mquerySelector[39m([32m'.main-content'[39m)
+    [90m288| [39m
+    [90m289| [39m    [34mexpect[39m(mainContent)[33m.[39m[34mtoHaveStyle[39m([32m'flex: 1'[39m)
+    [90m   | [39m                        [31m^[39m
+    [90m290| [39m    [34mexpect[39m(mainContent)[33m.[39m[34mtoHaveStyle[39m([32m'width: 100%'[39m)
+    [90m291| [39m  })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp - Responsive Behavior[2m > [22mshould maintain responsive layout with navbar container
+[31m[1mError[22m: [2mexpect([22m[31melement[31m[2m).toHaveStyle()[22m
+
+[32m- Expected[31m
+[31m+ Received[31m
+
+[32m- display: flex;[31m
+[31m+ display: block;[31m[39m
+[36m [2m❯[22m src/App.test.jsx:[2m325:29[22m[39m
+    [90m323| [39m
+    [90m324| [39m    [34mexpect[39m(navbarContainer)[33m.[39m[34mtoBeInTheDocument[39m()
+    [90m325| [39m    [34mexpect[39m(navbarContainer)[33m.[39m[34mtoHaveStyle[39m([32m'display: flex'[39m)
+    [90m   | [39m                            [31m^[39m
+    [90m326| [39m  })
+    [90m327| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/App.test.jsx[2m > [22mApp - Responsive Behavior[2m > [22mshould render navbar with sticky positioning
+[31m[1mError[22m: [2mexpect([22m[31melement[31m[2m).toHaveStyle()[22m
+
+[32m- Expected[31m
+[31m+ Received[31m
+
+[32m- position: sticky;[31m[39m
+[36m [2m❯[22m src/App.test.jsx:[2m332:20[22m[39m
+    [90m330| [39m    [35mconst[39m navbar [33m=[39m container[33m.[39m[34mquerySelector[39m([32m'.navbar'[39m)
+    [90m331| [39m
+    [90m332| [39m    [34mexpect[39m(navbar)[33m.[39m[34mtoHaveStyle[39m([32m'position: sticky'[39m)
+    [90m   | [39m                   [31m^[39m
+    [90m333| [39m    [34mexpect[39m(navbar)[33m.[39m[34mtoHaveStyle[39m([32m'top: 0'[39m)
+    [90m334| [39m  })
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m6 passed[39m[22m[90m (7)[39m
+[2m      Tests [22m [1m[31m8 failed[39m[22m[2m | [22m[1m[32m156 passed[39m[22m[90m (164)[39m
+[2m   Start at [22m 08:52:53
+[2m   Duration [22m 3.19s[2m (transform 417ms, setup 385ms, import 925ms, tests 4.49s, environment 3.28s)[22m
 
