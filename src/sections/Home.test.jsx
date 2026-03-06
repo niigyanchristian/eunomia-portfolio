@@ -58,7 +58,7 @@ describe('Home', () => {
 
   it('should call navigate when CTA button is clicked', () => {
     renderHome()
-    const ctaButton = screen.getByRole('button', { name: 'Get In Touch' })
+    const ctaButton = screen.getByRole('button', { name: 'Get in touch' })
     fireEvent.click(ctaButton)
     expect(window.location.pathname).toBe('/contact')
   })
