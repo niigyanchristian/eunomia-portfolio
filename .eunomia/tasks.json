@@ -1,0 +1,292 @@
+{
+  "project_name": "simple-portfolio-website",
+  "tasks": [
+    {
+      "task_id": "SETUP-001",
+      "task_type": "infrastructure",
+      "recommended_model": "haiku",
+      "title": "Initialize Vite + React Project",
+      "description": "Scaffold a new Vite + React project. Install necessary dependencies including React Router, and set up the basic project structure with src/components, src/sections, and src/assets directories. Configure Vite for optimal development and production builds.",
+      "dependencies": [],
+      "acceptance_criteria": [
+        "Vite + React project successfully created",
+        "React Router installed",
+        "Project structure organized with components, sections, and assets folders",
+        "Development server can start without errors"
+      ],
+      "filename": "package.json",
+      "language": "json"
+    },
+    {
+      "task_id": "REQ-001",
+      "task_type": "feature",
+      "recommended_model": "sonnet",
+      "title": "Implement Core Layout and Navigation",
+      "description": "Create the main App component with React Router setup. Implement Navbar component with navigation links to all sections. Implement Footer component with copyright and social links. Set up the basic layout structure that will contain all page sections.",
+      "dependencies": ["SETUP-001"],
+      "acceptance_criteria": [
+        "App component renders with routing structure",
+        "Navbar displays and links work",
+        "Footer displays with placeholder content",
+        "Layout structure is semantically correct"
+      ],
+      "filename": "src/App.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "REQ-001-TEST",
+      "task_type": "test_writing",
+      "recommended_model": "haiku",
+      "title": "Write Tests for Layout Components",
+      "description": "Write unit tests for the Navbar, Footer, and App components. Test navigation functionality, rendering of links, and basic layout structure. Use React Testing Library.",
+      "dependencies": ["REQ-001"],
+      "acceptance_criteria": [
+        "Navbar component has test coverage",
+        "Footer component has test coverage",
+        "App component routing is tested",
+        "Tests are runnable via npm test"
+      ],
+      "filename": "src/components/Navbar.test.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "QA-001",
+      "task_type": "qa_validation",
+      "recommended_model": "haiku",
+      "title": "Validate Layout Component Tests",
+      "description": "Run the test suite for layout components (Navbar, Footer, App). Verify all tests pass and report any failures.",
+      "dependencies": ["REQ-001-TEST"],
+      "acceptance_criteria": [
+        "All layout component tests pass",
+        "No test failures or errors",
+        "Test coverage meets minimum threshold"
+      ],
+      "filename": "src/components/Navbar.test.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "REQ-002",
+      "task_type": "feature",
+      "recommended_model": "sonnet",
+      "title": "Implement Home and About Sections",
+      "description": "Create the Home section with a hero component displaying name, professional title, summary statement, and CTA button. Create the About section with detailed introduction, background, experience summary, and optional downloadable resume link.",
+      "dependencies": ["REQ-001"],
+      "acceptance_criteria": [
+        "Home section displays hero content correctly",
+        "CTA button is functional",
+        "About section displays detailed content",
+        "Resume download link works (if implemented)",
+        "Sections use semantic HTML"
+      ],
+      "filename": "src/sections/Home.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "REQ-002-TEST",
+      "task_type": "test_writing",
+      "recommended_model": "haiku",
+      "title": "Write Tests for Home and About Sections",
+      "description": "Write unit tests for Home and About section components. Test content rendering, CTA button functionality, and resume link behavior.",
+      "dependencies": ["REQ-002"],
+      "acceptance_criteria": [
+        "Home section has test coverage",
+        "About section has test coverage",
+        "CTA button behavior is tested",
+        "Resume link is tested"
+      ],
+      "filename": "src/sections/Home.test.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "QA-002",
+      "task_type": "qa_validation",
+      "recommended_model": "haiku",
+      "title": "Validate Home and About Tests",
+      "description": "Run the test suite for Home and About sections. Verify all tests pass and report any failures.",
+      "dependencies": ["REQ-002-TEST"],
+      "acceptance_criteria": [
+        "All Home and About tests pass",
+        "No test failures or errors"
+      ],
+      "filename": "src/sections/Home.test.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "REQ-003",
+      "task_type": "feature",
+      "recommended_model": "sonnet",
+      "title": "Implement Projects and Skills Sections",
+      "description": "Create the Projects section with a list of project cards. Each card should display project title, description, technologies used, live demo link, and GitHub repository link. Create the Skills section displaying technical skills categorized by Frontend, Backend, and Tools.",
+      "dependencies": ["REQ-001"],
+      "acceptance_criteria": [
+        "Projects section displays project cards correctly",
+        "Each project card shows all required information",
+        "External links work correctly",
+        "Skills section displays categorized skills",
+        "Skills are properly grouped"
+      ],
+      "filename": "src/sections/Projects.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "REQ-003-TEST",
+      "task_type": "test_writing",
+      "recommended_model": "haiku",
+      "title": "Write Tests for Projects and Skills Sections",
+      "description": "Write unit tests for Projects and Skills section components. Test rendering of project data, links, and skills categorization.",
+      "dependencies": ["REQ-003"],
+      "acceptance_criteria": [
+        "Projects section has test coverage",
+        "Skills section has test coverage",
+        "Project card rendering is tested",
+        "Skills categorization is tested"
+      ],
+      "filename": "src/sections/Projects.test.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "QA-003",
+      "task_type": "qa_validation",
+      "recommended_model": "haiku",
+      "title": "Validate Projects and Skills Tests",
+      "description": "Run the test suite for Projects and Skills sections. Verify all tests pass and report any failures.",
+      "dependencies": ["REQ-003-TEST"],
+      "acceptance_criteria": [
+        "All Projects and Skills tests pass",
+        "No test failures or errors"
+      ],
+      "filename": "src/sections/Projects.test.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "REQ-004",
+      "task_type": "feature",
+      "recommended_model": "sonnet",
+      "title": "Implement Contact Section",
+      "description": "Create the Contact section with a contact form including fields for Name, Email, and Message. Implement form validation (required fields, email format). Add social media links and email address display. Handle form submission (can use a service like Formspree or implement basic handling).",
+      "dependencies": ["REQ-001"],
+      "acceptance_criteria": [
+        "Contact form displays all fields",
+        "Form validation works correctly",
+        "Required fields are enforced",
+        "Email format validation works",
+        "Social media links display",
+        "Form submission is handled"
+      ],
+      "filename": "src/sections/Contact.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "REQ-004-TEST",
+      "task_type": "test_writing",
+      "recommended_model": "haiku",
+      "title": "Write Tests for Contact Section",
+      "description": "Write unit tests for the Contact form component. Test form validation, required fields, email format checking, and submission handling.",
+      "dependencies": ["REQ-004"],
+      "acceptance_criteria": [
+        "Contact form has test coverage",
+        "Form validation is tested",
+        "Required field checks are tested",
+        "Email validation is tested",
+        "Form submission is tested"
+      ],
+      "filename": "src/sections/Contact.test.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "QA-004",
+      "task_type": "qa_validation",
+      "recommended_model": "haiku",
+      "title": "Validate Contact Section Tests",
+      "description": "Run the test suite for the Contact section. Verify all tests pass and report any failures.",
+      "dependencies": ["REQ-004-TEST"],
+      "acceptance_criteria": [
+        "All Contact section tests pass",
+        "No test failures or errors"
+      ],
+      "filename": "src/sections/Contact.test.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "REQ-005",
+      "task_type": "feature",
+      "recommended_model": "sonnet",
+      "title": "Implement Responsive Styling and Accessibility",
+      "description": "Implement global styles using CSS or Tailwind CSS. Ensure the website is fully responsive across mobile, tablet, and desktop viewports. Apply modern, clean UI/UX design. Ensure semantic HTML structure and add ARIA labels where needed for accessibility. Optimize for fast loading performance.",
+      "dependencies": ["REQ-001", "REQ-002", "REQ-003", "REQ-004"],
+      "acceptance_criteria": [
+        "Styles applied consistently across all components",
+        "Website is responsive on mobile, tablet, and desktop",
+        "Design is clean and professional",
+        "Semantic HTML is used throughout",
+        "ARIA labels added for accessibility",
+        "Performance is optimized"
+      ],
+      "filename": "src/index.css",
+      "language": "css"
+    },
+    {
+      "task_id": "REQ-005-TEST",
+      "task_type": "test_writing",
+      "recommended_model": "haiku",
+      "title": "Write Tests for Responsiveness and Accessibility",
+      "description": "Write tests to verify responsive behavior and accessibility features. Test viewport changes, semantic HTML structure, and ARIA labels.",
+      "dependencies": ["REQ-005"],
+      "acceptance_criteria": [
+        "Responsive behavior is tested",
+        "Accessibility features are tested",
+        "Semantic HTML structure is verified"
+      ],
+      "filename": "src/App.test.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "QA-005",
+      "task_type": "qa_validation",
+      "recommended_model": "haiku",
+      "title": "Validate Styling and Accessibility Tests",
+      "description": "Run the test suite for styling, responsiveness, and accessibility. Verify all tests pass and report any failures.",
+      "dependencies": ["REQ-005-TEST"],
+      "acceptance_criteria": [
+        "All styling and accessibility tests pass",
+        "No test failures or errors"
+      ],
+      "filename": "src/App.test.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "VERIFY-001",
+      "task_type": "verification",
+      "recommended_model": "haiku",
+      "title": "Runtime Browser Verification",
+      "description": "Start the Vite development server and perform runtime browser verification. Verify all sections render correctly, navigation works, forms function properly, links are valid, and the site is responsive. Take screenshots to validate the visual appearance.",
+      "dependencies": ["QA-001", "QA-002", "QA-003", "QA-004", "QA-005"],
+      "acceptance_criteria": [
+        "Development server starts successfully",
+        "All sections render without errors",
+        "Navigation between sections works",
+        "Contact form functions correctly",
+        "All links are valid and clickable",
+        "Responsive design works on different viewport sizes",
+        "Visual appearance matches design requirements"
+      ],
+      "filename": "src/App.jsx",
+      "language": "javascript"
+    },
+    {
+      "task_id": "COMMIT-001",
+      "task_type": "commit",
+      "recommended_model": "haiku",
+      "title": "Commit Portfolio Website",
+      "description": "Create a git commit with all changes for the portfolio website. Use a descriptive commit message that summarizes the complete implementation of the portfolio site with all sections.",
+      "dependencies": ["VERIFY-001"],
+      "acceptance_criteria": [
+        "All changes are committed",
+        "Commit message is descriptive and follows conventions",
+        "No uncommitted changes remain"
+      ],
+      "filename": ".",
+      "language": "bash"
+    }
+  ]
+}
