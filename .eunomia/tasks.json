@@ -2,16 +2,32 @@
   "project_name": "eunomia-portfolio",
   "tasks": [
     {
+      "task_id": "REQ-001",
+      "task_type": "bugfix",
+      "recommended_model": "sonnet",
+      "title": "Ensure application builds and runs successfully",
+      "description": "Verify the application can build and run without errors. Check that 'npm install' completes successfully, 'npm run build' produces a valid build, and 'npm run dev' starts the development server. Review package.json scripts, vite.config.js, and tsconfig.json for any misconfigurations. Fix any dependency issues, build errors, or runtime errors that prevent the app from running. Test that the app is accessible in a browser and renders the home page correctly.",
+      "dependencies": [],
+      "acceptance_criteria": [
+        "npm install completes without errors",
+        "npm run build completes successfully",
+        "npm run dev starts the development server",
+        "App is accessible and renders without console errors"
+      ],
+      "filename": "package.json",
+      "language": "json"
+    },
+    {
       "task_id": "QA-001",
       "task_type": "qa_validation",
       "recommended_model": "haiku",
-      "title": "Verify all tests pass",
-      "description": "Run the complete test suite using 'npx vitest run' to verify all tests pass successfully. Confirm zero test failures and that all test suites complete without errors.",
-      "dependencies": [],
+      "title": "Validate application runs and tests pass",
+      "description": "Run the complete validation suite: execute 'npx vitest run' to verify all tests pass, run 'npm run build' to verify the build succeeds, and run 'npm run dev' to verify the dev server starts successfully. Confirm zero test failures and no build errors.",
+      "dependencies": ["REQ-001"],
       "acceptance_criteria": [
-        "All test suites execute without errors",
-        "Zero test failures reported",
-        "Test run completes successfully with exit code 0"
+        "All tests pass with npx vitest run",
+        "Build completes without errors",
+        "Dev server starts and app loads successfully"
       ],
       "filename": "vitest.config.js",
       "language": "javascript"
