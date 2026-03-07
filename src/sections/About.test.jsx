@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-// eslint-disable-next-line no-unused-vars
 import { About } from '../pages/About'
 
 const renderAbout = () => {

@@ -6,14 +6,9 @@
   --color-primary: #6366f1;
   --color-primary-dark: #4f46e5;
   --color-primary-light: #818cf8;
-  --color-secondary: #8b5cf6;
-  --color-accent: #06b6d4;
 
   /* Semantic Colors */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
   --color-error: #ef4444;
-  --color-info: #3b82f6;
 }
 
 /* ===================================
@@ -56,11 +51,8 @@
   --font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   --font-family-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  --font-family-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', Courier, monospace;
 
   /* Font Sizes - Fluid Typography */
-  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
-  --font-size-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
   --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
   --font-size-md: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
   --font-size-lg: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
@@ -70,31 +62,21 @@
 
   /* Font Weights */
   --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
   /* Line Heights */
   --line-height-tight: 1.2;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
-  --line-height-loose: 2;
 
   /* Spacing Scale */
-  --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-  --space-4xl: 6rem;
 
   /* Border Radius */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
-  --radius-xl: 20px;
   --radius-full: 9999px;
 
   /* Shadows - Modern layered shadows */
@@ -102,20 +84,12 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
-  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.15);
 
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Z-index Scale */
-  --z-index-dropdown: 100;
-  --z-index-sticky: 200;
-  --z-index-fixed: 300;
-  --z-index-modal: 400;
-  --z-index-popover: 500;
   --z-index-tooltip: 600;
 
   /* Container Max Widths */
@@ -346,97 +320,6 @@ ol[role='list'] {
   }
 }
 
-/* ===================================
-   Utility Classes
-   =================================== */
-/* Container */
-.container {
-  width: 100%;
-  max-width: var(--container-max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--container-padding);
-  padding-right: var(--container-padding);
-}
-
-/* Visibility */
-.hidden {
-  display: none !important;
-}
-
-.invisible {
-  visibility: hidden;
-}
-
-/* Text Alignment */
-.text-center {
-  text-align: center;
-}
-
-.text-left {
-  text-align: left;
-}
-
-.text-right {
-  text-align: right;
-}
-
-/* Display */
-.flex {
-  display: flex;
-}
-
-.inline-flex {
-  display: inline-flex;
-}
-
-.grid {
-  display: grid;
-}
-
-.block {
-  display: block;
-}
-
-.inline-block {
-  display: inline-block;
-}
-
-/* Flex utilities */
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-/* Spacing utilities */
-.m-0 { margin: 0; }
-.mt-auto { margin-top: auto; }
-.mb-auto { margin-bottom: auto; }
-.mx-auto { margin-left: auto; margin-right: auto; }
-
-/* Performance optimizations */
-.will-change-transform {
-  will-change: transform;
-}
-
-.will-change-opacity {
-  will-change: opacity;
-}
 
 /* ===================================
    Animations
@@ -469,9 +352,6 @@ ol[role='list'] {
 @media (max-width: 768px) {
   :root {
     --container-padding: 1rem;
-    --space-2xl: 2rem;
-    --space-3xl: 2.5rem;
-    --space-4xl: 3rem;
   }
 
   html {
