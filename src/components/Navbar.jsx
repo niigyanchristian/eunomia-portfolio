@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ThemeToggle } from './ThemeToggle'
 import './Navbar.css'
 
 export const Navbar = () => {
@@ -19,16 +20,19 @@ export const Navbar = () => {
         <Link to="/" className="navbar-logo">
           Portfolio
         </Link>
-        <button
-          className="navbar-hamburger"
-          onClick={toggleMobileMenu}
-          aria-label="Toggle mobile menu"
-          aria-expanded={isMobileMenuOpen}
-        >
-          <span className="hamburger-line"></span>
-          <span className="hamburger-line"></span>
-          <span className="hamburger-line"></span>
-        </button>
+        <div className="navbar-actions">
+          <ThemeToggle />
+          <button
+            className="navbar-hamburger"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle mobile menu"
+            aria-expanded={isMobileMenuOpen}
+          >
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+            <span className="hamburger-line"></span>
+          </button>
+        </div>
         <ul className={`navbar-menu ${isMobileMenuOpen ? 'navbar-menu-open' : ''}`}>
           <li className="navbar-item">
             <Link to="/" className="navbar-link" onClick={closeMobileMenu}>

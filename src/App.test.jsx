@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import App from './App'
 
 describe('App', () => {
@@ -416,5 +416,71 @@ describe('App - Semantic HTML Validation', () => {
 
     expect(nav.parentElement).toEqual(main.parentElement)
     expect(footer.parentElement).toEqual(main.parentElement)
+  })
+})
+
+describe('App - Theme Functionality', () => {
+  it('should render theme toggle button in navbar', () => {
+    global.localStorage.getItem.mockReturnValue('light')
+    render(<App />)
+
+    const themeToggle = screen.getByRole('button', { name: /switch to/i })
+    expect(themeToggle).toBeInTheDocument()
+  })
+
+  it('should have accessible theme toggle with aria-label', () => {
+    global.localStorage.getItem.mockReturnValue('light')
+    render(<App />)
+
+    const themeToggle = screen.getByRole('button', { name: /switch to dark mode/i })
+    expect(themeToggle).toHaveAttribute('aria-label', 'Switch to dark mode')
+  })
+
+  it('should toggle theme when theme button is clicked', () => {
+    global.localStorage.getItem.mockReturnValue('light')
+    render(<App />)
+
+    expect(document.documentElement.className).toBe('light-theme')
+
+    const themeToggle = screen.getByRole('button', { name: /switch to dark mode/i })
+    fireEvent.click(themeToggle)
+
+    expect(document.documentElement.className).toBe('dark-theme')
+  })
+
+  it('should persist theme changes to localStorage', () => {
+    global.localStorage.getItem.mockReturnValue('light')
+    render(<App />)
+
+    const themeToggle = screen.getByRole('button', { name: /switch to dark mode/i })
+    fireEvent.click(themeToggle)
+
+    expect(global.localStorage.setItem).toHaveBeenCalledWith('theme', 'dark')
+  })
+
+  it('should load saved theme from localStorage on mount', () => {
+    global.localStorage.getItem.mockReturnValue('dark')
+    render(<App />)
+
+    expect(document.documentElement.className).toBe('dark-theme')
+    expect(global.localStorage.getItem).toHaveBeenCalledWith('theme')
+  })
+
+  it('should apply light theme by default when no saved theme exists', () => {
+    global.localStorage.getItem.mockReturnValue(null)
+    render(<App />)
+
+    expect(document.documentElement.className).toBe('light-theme')
+  })
+
+  it('should maintain theme across component re-renders', () => {
+    global.localStorage.getItem.mockReturnValue('dark')
+    const { rerender } = render(<App />)
+
+    expect(document.documentElement.className).toBe('dark-theme')
+
+    rerender(<App />)
+
+    expect(document.documentElement.className).toBe('dark-theme')
   })
 })

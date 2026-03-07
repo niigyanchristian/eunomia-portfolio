@@ -2,34 +2,37 @@
   "project_name": "eunomia-portfolio",
   "tasks": [
     {
-      "task_id": "REQ-001",
-      "task_type": "modify",
+      "task_id": "REFACTOR-001",
+      "task_type": "refactor",
       "recommended_model": "sonnet",
-      "title": "Fix mobile navigation to use overlay pattern",
-      "description": "Read existing files src/components/Navbar.jsx and src/components/Navbar.css to understand current navigation structure. Implement a mobile-friendly navigation solution: 1) Add a hamburger menu icon that appears on mobile viewports (typically <= 768px). 2) Implement toggle state management in Navbar.jsx to show/hide the mobile menu. 3) Rework Navbar.css to use an overlay or slide-in drawer pattern for mobile — the menu should overlay the page content (using position: fixed or absolute with a higher z-index) instead of pushing content down. 4) Ensure the navigation links remain accessible and functional on mobile. 5) Test across all pages (Home, About, Projects, Skills, Contact) to verify page content remains visible when menu is open. 6) Write or update tests in src/components/Navbar.test.jsx to cover mobile menu toggle behavior and rendering.",
+      "title": "Identify and remove dead code across the codebase",
+      "description": "Perform a comprehensive dead code analysis and cleanup:\n\n1. Scan all TypeScript/JavaScript files in src/ for:\n   - Unused imports\n   - Unused functions and variables\n   - Unused React components\n   - Unreferenced exports\n   - Commented-out code blocks\n\n2. Scan all CSS files for:\n   - Unused class selectors\n   - Unused CSS rules\n   - Dead style definitions\n\n3. Check for:\n   - Unreachable code paths\n   - Duplicate code\n   - Unused type definitions\n\n4. Remove all identified dead code while ensuring:\n   - No broken imports or references\n   - All remaining code is properly connected\n   - Tests are updated if any test utilities are removed\n\n5. Focus on files in:\n   - src/components/\n   - src/pages/\n   - src/sections/\n   - src/*.css\n\nUse TypeScript compiler and ESLint to help identify unused code. Verify that the application still compiles after cleanup.",
       "dependencies": [],
       "acceptance_criteria": [
-        "Mobile menu uses overlay/drawer pattern that doesn't push content out of view",
-        "Hamburger menu icon appears on mobile viewports",
-        "Menu toggle functionality works correctly",
-        "Navigation is accessible across all pages",
-        "Tests cover mobile menu behavior"
+        "All unused imports are removed",
+        "All unused functions and components are removed",
+        "All unused CSS rules are removed",
+        "No commented-out code remains",
+        "Application compiles without errors",
+        "No broken references or imports"
       ],
-      "filename": "src/components/Navbar.jsx",
+      "filename": "src/App.jsx",
       "language": "typescript"
     },
     {
       "task_id": "QA-001",
       "task_type": "qa_validation",
       "recommended_model": "haiku",
-      "title": "Validate mobile navigation fix",
-      "description": "Run the Navbar component test suite using 'npx vitest run src/components/Navbar.test.jsx' to validate the mobile navigation implementation. Verify that all tests pass, including mobile menu toggle behavior and rendering. If tests fail, report the failures with full error messages.",
-      "dependencies": ["REQ-001"],
+      "title": "Validate codebase after dead code removal",
+      "description": "Run comprehensive validation to ensure the dead code cleanup didn't break functionality:\n\n1. Run the complete test suite: npx vitest run\n2. Verify build succeeds: npm run build\n3. Verify dev server starts: npm run dev\n4. Confirm zero test failures\n5. Confirm no build errors\n\nAll tests must pass and the application must build and run successfully.",
+      "dependencies": ["REFACTOR-001"],
       "acceptance_criteria": [
-        "All Navbar tests pass with zero failures",
-        "Mobile navigation functionality is validated"
+        "All tests pass with zero failures",
+        "Build completes successfully",
+        "Dev server starts without errors",
+        "No runtime errors in the application"
       ],
-      "filename": "src/components/Navbar.test.jsx",
+      "filename": "vitest.config.js",
       "language": "typescript"
     }
   ]

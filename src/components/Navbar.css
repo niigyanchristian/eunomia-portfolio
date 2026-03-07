@@ -35,6 +35,14 @@
   color: var(--color-primary-light);
 }
 
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 102;
+  position: relative;
+}
+
 .navbar-hamburger {
   display: none;
   flex-direction: column;
