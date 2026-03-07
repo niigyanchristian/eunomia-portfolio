@@ -2,33 +2,18 @@
   "project_name": "eunomia-portfolio",
   "tasks": [
     {
-      "task_id": "FIX-001",
-      "task_type": "bugfix",
-      "recommended_model": "sonnet",
-      "title": "Fix all failing tests",
-      "description": "Run the full test suite using 'npx vitest run' to identify any failing tests. Read the failing test files and the source code they test. Fix issues by either: 1) Updating test assertions to match the current correct implementation, or 2) Fixing bugs in the source code if tests reveal actual issues. Key test files to check: src/components/ThemeToggle.test.jsx, src/components/Navbar.test.jsx, src/components/Footer.test.jsx, src/sections/Contact.test.jsx, src/sections/Home.test.jsx, src/sections/Projects.test.jsx, src/sections/About.test.jsx, src/App.test.jsx. Pay special attention to tests related to theme switching and navigation based on recent changes.",
-      "dependencies": [],
-      "acceptance_criteria": [
-        "All test files execute without runtime errors",
-        "All test assertions pass",
-        "No skipped or disabled tests remain"
-      ],
-      "filename": "src/components/ThemeToggle.test.jsx",
-      "language": "typescript"
-    },
-    {
       "task_id": "QA-001",
       "task_type": "qa_validation",
       "recommended_model": "haiku",
-      "title": "Validate all tests pass",
+      "title": "Verify all tests pass",
       "description": "Run the complete test suite using 'npx vitest run' to verify all tests pass successfully. Confirm zero test failures and that all test suites complete without errors.",
-      "dependencies": ["FIX-001"],
+      "dependencies": [],
       "acceptance_criteria": [
-        "Command 'npx vitest run' exits with code 0",
-        "All tests pass with 0 failures",
-        "No test suites report errors"
+        "All test suites run successfully",
+        "Zero test failures reported",
+        "No errors in test execution"
       ],
-      "filename": "vitest.config.js",
+      "filename": "package.json",
       "language": "typescript"
     }
   ]
