@@ -89,9 +89,6 @@
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Z-index Scale */
-  --z-index-tooltip: 600;
-
   /* Container Max Widths */
   --container-max-width: 1200px;
   --container-padding: 2rem;
@@ -271,73 +268,6 @@ ol {
 ul[role='list'],
 ol[role='list'] {
   list-style: none;
-}
-
-/* ===================================
-   Accessibility
-   =================================== */
-/* Skip to main content link */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: var(--color-background-dark);
-  color: var(--color-text-inverse);
-  padding: var(--space-sm) var(--space-md);
-  z-index: var(--z-index-tooltip);
-  text-decoration: none;
-  border-radius: 0 0 var(--radius-md) 0;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
-/* Screen reader only content */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --color-text-primary: #000000;
-    --color-background: #ffffff;
-    --color-border: #000000;
-  }
-
-  button,
-  a {
-    text-decoration: underline;
-  }
-}
-
-
-/* ===================================
-   Animations
-   =================================== */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
 
 /* ===================================
