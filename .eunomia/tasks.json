@@ -2,35 +2,38 @@
   "project_name": "eunomia-portfolio",
   "tasks": [
     {
-      "task_id": "REQ-001",
-      "task_type": "bugfix",
+      "task_id": "REFACTOR-001",
+      "task_type": "refactor",
       "recommended_model": "sonnet",
-      "title": "Ensure application builds and runs successfully",
-      "description": "Verify the application can build and run without errors. Check that 'npm install' completes successfully, 'npm run build' produces a valid build, and 'npm run dev' starts the development server. Review package.json scripts, vite.config.js, and tsconfig.json for any misconfigurations. Fix any dependency issues, build errors, or runtime errors that prevent the app from running. Test that the app is accessible in a browser and renders the home page correctly.",
+      "title": "Identify and remove dead code across the codebase",
+      "description": "Perform a comprehensive dead code analysis and cleanup:\n\n1. Scan all TypeScript/JavaScript files in src/ for:\n   - Unused imports\n   - Unused functions and variables\n   - Unused React components\n   - Unreferenced exports\n   - Commented-out code blocks\n\n2. Scan all CSS files for:\n   - Unused class selectors\n   - Unused CSS rules\n   - Dead style definitions\n\n3. Check for:\n   - Unreachable code paths\n   - Duplicate code\n   - Unused type definitions\n\n4. Remove all identified dead code while ensuring:\n   - No broken imports or references\n   - All remaining code is properly connected\n   - Tests are updated if any test utilities are removed\n\n5. Focus on files in:\n   - src/components/\n   - src/pages/\n   - src/sections/\n   - src/*.css\n\nUse TypeScript compiler and ESLint to help identify unused code. Verify that the application still compiles after cleanup.",
       "dependencies": [],
       "acceptance_criteria": [
-        "npm install completes without errors",
-        "npm run build completes successfully",
-        "npm run dev starts the development server",
-        "App is accessible and renders without console errors"
+        "All unused imports are removed",
+        "All unused functions and components are removed",
+        "All unused CSS rules are removed",
+        "No commented-out code remains",
+        "Application compiles without errors",
+        "No broken references or imports"
       ],
-      "filename": "package.json",
-      "language": "json"
+      "filename": "src/App.jsx",
+      "language": "typescript"
     },
     {
       "task_id": "QA-001",
       "task_type": "qa_validation",
       "recommended_model": "haiku",
-      "title": "Validate application runs and tests pass",
-      "description": "Run the complete validation suite: execute 'npx vitest run' to verify all tests pass, run 'npm run build' to verify the build succeeds, and run 'npm run dev' to verify the dev server starts successfully. Confirm zero test failures and no build errors.",
-      "dependencies": ["REQ-001"],
+      "title": "Validate codebase after dead code removal",
+      "description": "Run comprehensive validation to ensure the dead code cleanup didn't break functionality:\n\n1. Run the complete test suite: npx vitest run\n2. Verify build succeeds: npm run build\n3. Verify dev server starts: npm run dev\n4. Confirm zero test failures\n5. Confirm no build errors\n\nAll tests must pass and the application must build and run successfully.",
+      "dependencies": ["REFACTOR-001"],
       "acceptance_criteria": [
-        "All tests pass with npx vitest run",
-        "Build completes without errors",
-        "Dev server starts and app loads successfully"
+        "All tests pass with zero failures",
+        "Build completes successfully",
+        "Dev server starts without errors",
+        "No runtime errors in the application"
       ],
       "filename": "vitest.config.js",
-      "language": "javascript"
+      "language": "typescript"
     }
   ]
 }
