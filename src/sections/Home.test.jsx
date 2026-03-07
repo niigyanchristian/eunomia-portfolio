@@ -1,8 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-// eslint-disable-next-line no-unused-vars
 import { BrowserRouter } from 'react-router-dom'
-// eslint-disable-next-line no-unused-vars
 import { Home } from '../pages/Home'
 
 const renderHome = () => {
