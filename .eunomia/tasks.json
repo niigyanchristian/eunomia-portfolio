@@ -9,12 +9,12 @@
       "description": "Run the complete test suite using 'npx vitest run' to verify all tests pass successfully. Confirm zero test failures and that all test suites complete without errors.",
       "dependencies": [],
       "acceptance_criteria": [
-        "All test suites run successfully",
+        "All test suites execute without errors",
         "Zero test failures reported",
-        "No errors in test execution"
+        "Test run completes successfully with exit code 0"
       ],
-      "filename": "package.json",
-      "language": "typescript"
+      "filename": "vitest.config.js",
+      "language": "javascript"
     }
   ]
 }
