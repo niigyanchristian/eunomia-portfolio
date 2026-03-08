@@ -124,7 +124,7 @@ export default function VisualizationPicker({ metrics = [], visualizations = {},
           {selectedMetric && (
             <div className="chart-types-panel">
               <h4>
-                Chart Type for <strong>{formatMetricName(selectedMetric)}</strong>
+                Chart Type for {formatMetricName(selectedMetric)}
               </h4>
               <div className="chart-types-grid">
                 {CHART_TYPES.map((chartType) => {
@@ -166,17 +166,17 @@ export default function VisualizationPicker({ metrics = [], visualizations = {},
         </div>
       )}
 
-      {metrics.length > 0 && (
+      {metrics.length > 1 && Object.keys(visualizations).length > 0 && (
         <div className="visualization-summary">
           <h4>Summary</h4>
           <div className="summary-list">
             {metrics.map((metricKey) => (
               <div key={metricKey} className="summary-item">
-                <span className="summary-metric">{formatMetricName(metricKey)}</span>
+                <span className="summary-metric">• {formatMetricName(metricKey)}</span>
                 <span className="summary-arrow">→</span>
                 <span className="summary-chart">
                   {visualizations[metricKey]
-                    ? CHART_TYPES.find((ct) => ct.type === visualizations[metricKey])?.name || 'Not selected'
+                    ? CHART_TYPES.find((ct) => ct.type === visualizations[metricKey])?.name
                     : 'Not selected'}
                 </span>
               </div>
