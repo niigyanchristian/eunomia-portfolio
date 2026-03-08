@@ -1,13 +1,45 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import { Navbar } from './Navbar'
+import { AuthContext } from '../context/AuthContext'
 
-const renderNavbar = () => {
+vi.mock('firebase/auth', () => ({
+  signInWithEmailAndPassword: vi.fn(),
+  signInWithPopup: vi.fn(),
+  GoogleAuthProvider: vi.fn(),
+  onAuthStateChanged: vi.fn(() => vi.fn()),
+  browserLocalPersistence: 'LOCAL',
+  setPersistence: vi.fn(),
+}))
+
+vi.mock('../config/firebase', () => ({
+  auth: {
+    signOut: vi.fn(),
+  },
+}))
+
+const renderNavbar = (authContextValue = {}) => {
+  const defaultAuthContext = {
+    currentUser: null,
+    loading: false,
+    error: null,
+    isAuthenticated: false,
+    signInWithEmail: vi.fn(),
+    signInWithGoogle: vi.fn(),
+    signOut: vi.fn(),
+    signOutAllDevices: vi.fn(),
+    enableMFA: vi.fn(),
+    disableMFA: vi.fn(),
+    ...authContextValue,
+  }
+
   return render(
     <BrowserRouter>
-      <Navbar />
+      <AuthContext.Provider value={defaultAuthContext}>
+        <Navbar />
+      </AuthContext.Provider>
     </BrowserRouter>
   )
 }
@@ -83,10 +115,29 @@ describe('Navbar', () => {
     expect(menuList).toHaveClass('navbar-menu')
   })
 
-  it('should have correct number of navigation items', () => {
-    renderNavbar()
+  it('should have correct number of navigation items when not authenticated', () => {
+    renderNavbar({ isAuthenticated: false })
+    const menuItems = screen.getAllByRole('listitem')
+    expect(menuItems).toHaveLength(8)
+  })
+
+  it('should have correct number of navigation items when authenticated', () => {
+    renderNavbar({ isAuthenticated: true, currentUser: { email: 'test@example.com' } })
     const menuItems = screen.getAllByRole('listitem')
     expect(menuItems).toHaveLength(7)
+  })
+
+  it('should show login link when not authenticated', () => {
+    renderNavbar({ isAuthenticated: false })
+    const loginLink = screen.getByRole('link', { name: 'Login' })
+    expect(loginLink).toBeInTheDocument()
+    expect(loginLink).toHaveAttribute('href', '/login')
+  })
+
+  it('should not show login link when authenticated', () => {
+    renderNavbar({ isAuthenticated: true, currentUser: { email: 'test@example.com' } })
+    const loginLink = screen.queryByRole('link', { name: 'Login' })
+    expect(loginLink).not.toBeInTheDocument()
   })
 
   it('should render the hamburger menu button', () => {

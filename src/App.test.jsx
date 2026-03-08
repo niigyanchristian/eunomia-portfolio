@@ -1,40 +1,67 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import { AuthProvider } from './context/AuthContext'
 import App from './App'
+
+vi.mock('firebase/auth', () => ({
+  signInWithEmailAndPassword: vi.fn(),
+  signInWithPopup: vi.fn(),
+  GoogleAuthProvider: vi.fn(),
+  onAuthStateChanged: vi.fn((auth, callback) => {
+    callback(null)
+    return vi.fn()
+  }),
+  browserLocalPersistence: 'LOCAL',
+  setPersistence: vi.fn(),
+}))
+
+vi.mock('./config/firebase', () => ({
+  auth: {
+    signOut: vi.fn(),
+  },
+}))
+
+const renderApp = () => {
+  return render(
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  )
+}
 
 describe('App', () => {
   it('should render the App component', () => {
-    render(<App />)
+    renderApp()
     const appDiv = screen.getByRole('main')
     expect(appDiv).toBeInTheDocument()
   })
 
   it('should render Navbar component', () => {
-    render(<App />)
+    renderApp()
     const navbar = screen.getByRole('navigation')
     expect(navbar).toBeInTheDocument()
   })
 
   it('should render Footer component', () => {
-    render(<App />)
+    renderApp()
     const footer = screen.getByRole('contentinfo')
     expect(footer).toBeInTheDocument()
   })
 
   it('should have main-content class on main element', () => {
-    render(<App />)
+    renderApp()
     const mainContent = screen.getByRole('main')
     expect(mainContent).toHaveClass('main-content')
   })
 
   it('should have App class on root div', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const appDiv = container.querySelector('.App')
     expect(appDiv).toBeInTheDocument()
   })
 
   it('should render all navigation links', () => {
-    render(<App />)
+    renderApp()
     const portfolioLogo = screen.getByRole('link', { name: 'Portfolio' })
     const homeLink = screen.getByRole('link', { name: /^Home$/ })
     const aboutLink = screen.getByRole('link', { name: /^About$/ })
@@ -51,7 +78,7 @@ describe('App', () => {
   })
 
   it('should have correct href values for navigation links', () => {
-    render(<App />)
+    renderApp()
     const homeLink = screen.getByRole('link', { name: /^Home$/ })
     const aboutLink = screen.getByRole('link', { name: /^About$/ })
     const projectsLink = screen.getByRole('link', { name: /^Projects$/ })
@@ -66,7 +93,7 @@ describe('App', () => {
   })
 
   it('should render footer with social links', () => {
-    render(<App />)
+    renderApp()
     const githubLink = screen.getByRole('link', { name: 'GitHub' })
     const linkedinLink = screen.getByRole('link', { name: 'LinkedIn' })
     const twitterLink = screen.getByRole('link', { name: 'Twitter' })
@@ -77,13 +104,13 @@ describe('App', () => {
   })
 
   it('should render Home page by default', () => {
-    render(<App />)
+    renderApp()
     const homeHeading = screen.getByRole('heading', { name: /John Doe/i })
     expect(homeHeading).toBeInTheDocument()
   })
 
   it('should maintain proper layout structure', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const app = container.querySelector('.App')
     const navbar = container.querySelector('.navbar')
     const mainContent = container.querySelector('.main-content')
@@ -105,7 +132,7 @@ describe('App', () => {
 
 describe('App - Accessibility Features', () => {
   it('should have semantic HTML structure with proper landmarks', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
 
     const nav = container.querySelector('nav')
     const main = container.querySelector('main')
@@ -117,14 +144,14 @@ describe('App - Accessibility Features', () => {
   })
 
   it('should have main element with proper id for skip links', () => {
-    render(<App />)
+    renderApp()
     const mainContent = screen.getByRole('main')
 
     expect(mainContent).toHaveAttribute('id', 'main-content')
   })
 
   it('should have proper ARIA labels on footer social links', () => {
-    render(<App />)
+    renderApp()
 
     const githubLink = screen.getByRole('link', { name: 'GitHub' })
     const linkedinLink = screen.getByRole('link', { name: 'LinkedIn' })
@@ -136,7 +163,7 @@ describe('App - Accessibility Features', () => {
   })
 
   it('should have external link attributes on footer social links', () => {
-    render(<App />)
+    renderApp()
 
     const githubLink = screen.getByRole('link', { name: 'GitHub' })
     const linkedinLink = screen.getByRole('link', { name: 'LinkedIn' })
@@ -152,7 +179,7 @@ describe('App - Accessibility Features', () => {
   })
 
   it('should have proper navigation role', () => {
-    render(<App />)
+    renderApp()
     const nav = screen.getByRole('navigation')
 
     expect(nav).toBeInTheDocument()
@@ -160,7 +187,7 @@ describe('App - Accessibility Features', () => {
   })
 
   it('should have proper contentinfo role for footer', () => {
-    render(<App />)
+    renderApp()
     const footer = screen.getByRole('contentinfo')
 
     expect(footer).toBeInTheDocument()
@@ -168,7 +195,7 @@ describe('App - Accessibility Features', () => {
   })
 
   it('should have heading hierarchy on home page', () => {
-    render(<App />)
+    renderApp()
 
     const h1 = screen.getByRole('heading', { level: 1 })
     expect(h1).toBeInTheDocument()
@@ -176,7 +203,7 @@ describe('App - Accessibility Features', () => {
   })
 
   it('should use semantic list structure for navigation', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
 
     const navList = container.querySelector('.navbar-menu')
     expect(navList).toHaveClass('navbar-menu')
@@ -191,7 +218,7 @@ describe('App - Accessibility Features', () => {
   })
 
   it('should have accessible link text in navigation', () => {
-    render(<App />)
+    renderApp()
 
     const navLinks = [
       screen.getByRole('link', { name: 'Portfolio' }),
@@ -232,7 +259,7 @@ describe('App - Responsive Behavior', () => {
       value: 1200,
     })
 
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const app = container.querySelector('.App')
 
     expect(app).toBeInTheDocument()
@@ -246,7 +273,7 @@ describe('App - Responsive Behavior', () => {
       value: 768,
     })
 
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const app = container.querySelector('.App')
 
     expect(app).toBeInTheDocument()
@@ -260,7 +287,7 @@ describe('App - Responsive Behavior', () => {
       value: 480,
     })
 
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const app = container.querySelector('.App')
 
     expect(app).toBeInTheDocument()
@@ -268,7 +295,7 @@ describe('App - Responsive Behavior', () => {
   })
 
   it('should have root App element that fills viewport', () => {
-    render(<App />)
+    renderApp()
     const app = screen.getByRole('main').closest('.App')
 
     expect(app).toBeInTheDocument()
@@ -276,7 +303,7 @@ describe('App - Responsive Behavior', () => {
   })
 
   it('should use proper class structure for responsive layout', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const app = container.querySelector('.App')
 
     expect(app).toHaveClass('App')
@@ -284,7 +311,7 @@ describe('App - Responsive Behavior', () => {
   })
 
   it('should have main content area with proper class', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const mainContent = container.querySelector('.main-content')
 
     expect(mainContent).toBeInTheDocument()
@@ -306,7 +333,7 @@ describe('App - Responsive Behavior', () => {
         value: width,
       })
 
-      const { container } = render(<App />)
+      const { container } = renderApp()
 
       const nav = container.querySelector('nav')
       const main = container.querySelector('main')
@@ -319,7 +346,7 @@ describe('App - Responsive Behavior', () => {
   })
 
   it('should maintain responsive layout with navbar container', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const navbarContainer = container.querySelector('.navbar-container')
 
     expect(navbarContainer).toBeInTheDocument()
@@ -327,7 +354,7 @@ describe('App - Responsive Behavior', () => {
   })
 
   it('should render navbar with proper structure for responsive design', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const navbar = container.querySelector('.navbar')
 
     expect(navbar).toBeInTheDocument()
@@ -335,7 +362,7 @@ describe('App - Responsive Behavior', () => {
   })
 
   it('should have responsive footer layout', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const footer = container.querySelector('.footer')
 
     expect(footer).toBeInTheDocument()
@@ -345,7 +372,7 @@ describe('App - Responsive Behavior', () => {
 
 describe('App - Semantic HTML Validation', () => {
   it('should use nav element for navigation', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const nav = container.querySelector('nav')
 
     expect(nav).toBeInTheDocument()
@@ -353,7 +380,7 @@ describe('App - Semantic HTML Validation', () => {
   })
 
   it('should use main element for main content', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const main = container.querySelector('main')
 
     expect(main).toBeInTheDocument()
@@ -361,7 +388,7 @@ describe('App - Semantic HTML Validation', () => {
   })
 
   it('should use footer element for page footer', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const footer = container.querySelector('footer')
 
     expect(footer).toBeInTheDocument()
@@ -369,7 +396,7 @@ describe('App - Semantic HTML Validation', () => {
   })
 
   it('should have properly nested semantic structure', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
     const app = container.querySelector('.App')
 
     const children = Array.from(app.children)
@@ -386,7 +413,7 @@ describe('App - Semantic HTML Validation', () => {
   })
 
   it('should use ul/li elements in navigation menu', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
 
     const navList = container.querySelector('.navbar-menu')
     expect(navList.tagName).toBe('UL')
@@ -398,7 +425,7 @@ describe('App - Semantic HTML Validation', () => {
   })
 
   it('should contain accessible links with href attributes', () => {
-    render(<App />)
+    renderApp()
 
     const links = screen.getAllByRole('link')
     links.forEach(link => {
@@ -408,7 +435,7 @@ describe('App - Semantic HTML Validation', () => {
   })
 
   it('should have appropriate page structure for screen readers', () => {
-    const { container } = render(<App />)
+    const { container } = renderApp()
 
     const nav = container.querySelector('nav')
     const main = container.querySelector('main')

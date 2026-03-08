@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import './Navbar.css'
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { isAuthenticated } = useAuth()
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -65,6 +67,13 @@ export const Navbar = () => {
               Manage Projects
             </Link>
           </li>
+          {!isAuthenticated && (
+            <li className="navbar-item">
+              <Link to="/login" className="navbar-link navbar-link-login" onClick={closeMobileMenu}>
+                Login
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
       {isMobileMenuOpen && (
