@@ -8,6 +8,7 @@ import { Skills } from './pages/Skills'
 import { Contact } from './pages/Contact'
 import { Profile } from './pages/Profile'
 import { ProjectsManager } from './pages/ProjectsManager'
+import { Login } from './pages/Login'
 import './App.css'
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/projects-manager" element={<ProjectsManager />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
         <Footer />
