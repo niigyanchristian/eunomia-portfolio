@@ -145,11 +145,13 @@ export const Navbar = () => {
               )}
             </li>
           )}
-          <li className="navbar-item">
-            <Link to="/profile" className="navbar-link" onClick={closeMobileMenu}>
-              Profile
-            </Link>
-          </li>
+          {!isAuthenticated && (
+            <li className="navbar-item">
+              <Link to="/profile" className="navbar-link" onClick={closeMobileMenu}>
+                Profile
+              </Link>
+            </li>
+          )}
           <li className="navbar-item">
             <Link to="/projects-manager" className="navbar-link" onClick={closeMobileMenu}>
               Manage Projects
