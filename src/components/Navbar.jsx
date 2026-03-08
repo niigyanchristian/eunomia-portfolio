@@ -6,9 +6,11 @@ import './Navbar.css'
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [isReportsDropdownOpen, setIsReportsDropdownOpen] = useState(false)
   const { isAuthenticated, currentUser, signOut } = useAuth()
   const navigate = useNavigate()
   const dropdownRef = useRef(null)
+  const reportsDropdownRef = useRef(null)
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -20,6 +22,10 @@ export const Navbar = () => {
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen)
+  }
+
+  const toggleReportsDropdown = () => {
+    setIsReportsDropdownOpen(!isReportsDropdownOpen)
   }
 
   const handleLogout = async () => {
@@ -37,16 +43,19 @@ export const Navbar = () => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false)
       }
+      if (reportsDropdownRef.current && !reportsDropdownRef.current.contains(event.target)) {
+        setIsReportsDropdownOpen(false)
+      }
     }
 
-    if (isDropdownOpen) {
+    if (isDropdownOpen || isReportsDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside)
     }
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [isDropdownOpen])
+  }, [isDropdownOpen, isReportsDropdownOpen])
 
   return (
     <nav className="navbar">
@@ -90,6 +99,42 @@ export const Navbar = () => {
               Contact
             </Link>
           </li>
+          {isAuthenticated && (
+            <li className="navbar-item navbar-dropdown-item" ref={reportsDropdownRef}>
+              <button
+                className="navbar-link navbar-dropdown-trigger"
+                onClick={toggleReportsDropdown}
+                aria-expanded={isReportsDropdownOpen}
+                aria-haspopup="true"
+              >
+                Reports ▾
+              </button>
+              {isReportsDropdownOpen && (
+                <div className="navbar-dropdown-menu">
+                  <Link
+                    to="/reports"
+                    className="navbar-dropdown-link"
+                    onClick={() => {
+                      setIsReportsDropdownOpen(false)
+                      closeMobileMenu()
+                    }}
+                  >
+                    View Reports
+                  </Link>
+                  <Link
+                    to="/reports/builder"
+                    className="navbar-dropdown-link"
+                    onClick={() => {
+                      setIsReportsDropdownOpen(false)
+                      closeMobileMenu()
+                    }}
+                  >
+                    Build Custom Report
+                  </Link>
+                </div>
+              )}
+            </li>
+          )}
           <li className="navbar-item">
             <Link to="/profile" className="navbar-link" onClick={closeMobileMenu}>
               Profile

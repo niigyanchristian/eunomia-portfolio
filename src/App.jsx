@@ -11,6 +11,7 @@ import { Profile } from './pages/Profile'
 import { ProjectsManager } from './pages/ProjectsManager'
 import { Login } from './pages/Login'
 import { Account } from './pages/Account'
+import ReportBuilder from './pages/ReportBuilder'
 import './App.css'
 
 function App() {
@@ -37,6 +38,11 @@ function App() {
             } />
             <Route path="/login" element={<Login />} />
             <Route path="/account" element={<Account />} />
+            <Route path="/reports/builder" element={
+              <ProtectedRoute>
+                <ReportBuilder />
+              </ProtectedRoute>
+            } />
           </Routes>
         </main>
         <Footer />
