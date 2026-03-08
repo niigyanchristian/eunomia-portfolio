@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useProfile } from '../context/ProfileContext'
+import { ProfilePhoto } from '../components/ProfilePhoto/ProfilePhoto'
 import './Profile.css'
 
 const BIO_MAX = 500
@@ -36,6 +37,7 @@ export const Profile = () => {
         <h1 className="profile-title">Profile</h1>
 
         <div className="profile-card">
+          <ProfilePhoto />
           {isEditing ? (
             <form
               className="profile-form"
