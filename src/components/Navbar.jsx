@@ -55,6 +55,11 @@ export const Navbar = () => {
               Contact
             </Link>
           </li>
+          <li className="navbar-item">
+            <Link to="/profile" className="navbar-link" onClick={closeMobileMenu}>
+              Profile
+            </Link>
+          </li>
         </ul>
       </div>
       {isMobileMenuOpen && (

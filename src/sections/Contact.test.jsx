@@ -3,6 +3,16 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Contact } from './Contact'
 
+vi.mock('../context/ProfileContext', () => ({
+  useProfile: () => ({
+    profile: {
+      email: '',
+      location: '',
+      socialLinks: { github: '', linkedin: '', twitter: '' },
+    },
+  }),
+}))
+
 describe('Contact Component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -25,7 +35,6 @@ describe('Contact Component', () => {
       expect(screen.getByText(/get in touch/i)).toBeInTheDocument()
       expect(screen.getByText(/have a question/i)).toBeInTheDocument()
       expect(screen.getByText(/contact information/i)).toBeInTheDocument()
-      expect(screen.getByText(/connect with me/i)).toBeInTheDocument()
     })
 
     it('should have all form fields empty initially', () => {
@@ -580,37 +589,20 @@ describe('Contact Component', () => {
   })
 
   describe('Social Links', () => {
-    it('should render social media links', () => {
+    it('should not render social links section when profile has no social links', () => {
       render(<Contact />)
 
-      expect(screen.getByLabelText('GitHub')).toBeInTheDocument()
-      expect(screen.getByLabelText('LinkedIn')).toBeInTheDocument()
-      expect(screen.getByLabelText('Twitter')).toBeInTheDocument()
-      expect(screen.getByLabelText('Email')).toBeInTheDocument()
+      expect(screen.queryByLabelText('GitHub')).not.toBeInTheDocument()
+      expect(screen.queryByLabelText('LinkedIn')).not.toBeInTheDocument()
+      expect(screen.queryByLabelText('Twitter')).not.toBeInTheDocument()
+      expect(screen.queryByLabelText('Email')).not.toBeInTheDocument()
+      expect(screen.queryByText(/connect with me/i)).not.toBeInTheDocument()
     })
 
-    it('should have correct href attributes for social links', () => {
+    it('should show empty state hint when no contact info is set', () => {
       render(<Contact />)
 
-      expect(screen.getByLabelText('GitHub')).toHaveAttribute('href', 'https://github.com/yourusername')
-      expect(screen.getByLabelText('LinkedIn')).toHaveAttribute('href', 'https://linkedin.com/in/yourusername')
-      expect(screen.getByLabelText('Twitter')).toHaveAttribute('href', 'https://twitter.com/yourusername')
-      expect(screen.getByLabelText('Email')).toHaveAttribute('href', 'mailto:your.email@example.com')
-    })
-
-    it('should have target="_blank" for external social links', () => {
-      render(<Contact />)
-
-      const externalLinks = [
-        screen.getByLabelText('GitHub'),
-        screen.getByLabelText('LinkedIn'),
-        screen.getByLabelText('Twitter')
-      ]
-
-      externalLinks.forEach(link => {
-        expect(link).toHaveAttribute('target', '_blank')
-        expect(link).toHaveAttribute('rel', 'noopener noreferrer')
-      })
+      expect(screen.getByText(/update your/i)).toBeInTheDocument()
     })
   })
 })

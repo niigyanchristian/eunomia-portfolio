@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useProfile } from '../context/ProfileContext'
 import './Contact.css'
 
 export const Contact = () => {
+  const { profile } = useProfile()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -89,12 +91,15 @@ export const Contact = () => {
     }
   }
 
+  const contactEmail = profile.email || ''
+  const contactLocation = profile.location || ''
+
   const socialLinks = [
-    { name: 'GitHub', url: 'https://github.com/yourusername', icon: '🔗' },
-    { name: 'LinkedIn', url: 'https://linkedin.com/in/yourusername', icon: '💼' },
-    { name: 'Twitter', url: 'https://twitter.com/yourusername', icon: '🐦' },
-    { name: 'Email', url: 'mailto:your.email@example.com', icon: '📧' }
-  ]
+    profile.socialLinks?.github && { name: 'GitHub', url: profile.socialLinks.github, icon: '🔗' },
+    profile.socialLinks?.linkedin && { name: 'LinkedIn', url: profile.socialLinks.linkedin, icon: '💼' },
+    profile.socialLinks?.twitter && { name: 'Twitter', url: profile.socialLinks.twitter, icon: '🐦' },
+    contactEmail && { name: 'Email', url: `mailto:${contactEmail}`, icon: '📧' },
+  ].filter(Boolean)
 
   return (
     <section className="contact-section">
@@ -108,40 +113,51 @@ export const Contact = () => {
           <div className="contact-info">
             <div className="info-card">
               <h3>Contact Information</h3>
-              <div className="info-item">
-                <span className="info-icon">📧</span>
-                <div className="info-text">
-                  <strong>Email</strong>
-                  <a href="mailto:your.email@example.com">your.email@example.com</a>
+              {contactEmail ? (
+                <div className="info-item">
+                  <span className="info-icon">📧</span>
+                  <div className="info-text">
+                    <strong>Email</strong>
+                    <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+                  </div>
                 </div>
-              </div>
-              <div className="info-item">
-                <span className="info-icon">📍</span>
-                <div className="info-text">
-                  <strong>Location</strong>
-                  <p>Your City, Country</p>
+              ) : null}
+              {contactLocation ? (
+                <div className="info-item">
+                  <span className="info-icon">📍</span>
+                  <div className="info-text">
+                    <strong>Location</strong>
+                    <p>{contactLocation}</p>
+                  </div>
                 </div>
-              </div>
+              ) : null}
+              {!contactEmail && !contactLocation && (
+                <p className="info-empty">
+                  Update your <a href="/profile">Profile</a> to display contact details here.
+                </p>
+              )}
             </div>
 
-            <div className="social-links">
-              <h3>Connect With Me</h3>
-              <div className="social-links-grid">
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="social-link"
-                    aria-label={link.name}
-                  >
-                    <span className="social-icon">{link.icon}</span>
-                    <span className="social-name">{link.name}</span>
-                  </a>
-                ))}
+            {socialLinks.length > 0 && (
+              <div className="social-links">
+                <h3>Connect With Me</h3>
+                <div className="social-links-grid">
+                  {socialLinks.map((link) => (
+                    <a
+                      key={link.name}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="social-link"
+                      aria-label={link.name}
+                    >
+                      <span className="social-icon">{link.icon}</span>
+                      <span className="social-name">{link.name}</span>
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <form className="contact-form" onSubmit={handleSubmit} noValidate>

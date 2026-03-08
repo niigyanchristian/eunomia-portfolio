@@ -1,0 +1,82 @@
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.social-links-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #555);
+  margin-bottom: 0.25rem;
+}
+
+.social-link-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.platform-label {
+  min-width: 110px;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #666);
+  font-weight: 500;
+}
+
+.social-link-row input[type='url'] {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: var(--input-bg, #fff);
+  color: var(--text-primary, #222);
+  transition: border-color 0.2s;
+}
+
+.social-link-row input[type='url']:focus {
+  outline: none;
+  border-color: var(--accent-color, #6c63ff);
+}
+
+.btn-remove-link {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--error-color, #e55);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--error-color, #e55);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.btn-remove-link:hover {
+  background: var(--error-color, #e55);
+  color: #fff;
+}
+
+.btn-add-link {
+  align-self: flex-start;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--accent-color, #6c63ff);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--accent-color, #6c63ff);
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 0.25rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-add-link:hover:not(:disabled) {
+  background: var(--accent-color, #6c63ff);
+  color: #fff;
+}
+
+.btn-add-link:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

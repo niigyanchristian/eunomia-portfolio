@@ -1,0 +1,101 @@
+.profile-preview {
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.profile-preview-photo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-preview-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e2e8f0;
+}
+
+.profile-preview-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.profile-preview-name {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: #1a202c;
+}
+
+.profile-preview-headline {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #4a5568;
+  margin: 0 0 1rem;
+}
+
+.profile-preview-bio {
+  font-size: 0.95rem;
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0 0 1.25rem;
+}
+
+.profile-preview-field {
+  font-size: 0.9rem;
+  color: #4a5568;
+  margin: 0.25rem 0;
+}
+
+.profile-preview-label {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.profile-preview-social {
+  margin-top: 1.25rem;
+}
+
+.profile-preview-links {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.profile-preview-links a {
+  color: #3182ce;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.profile-preview-links a:hover {
+  text-decoration: underline;
+}
+
+.profile-preview-skills {
+  margin-top: 1.25rem;
+}
+
+.profile-preview-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.profile-preview-tag {
+  background: #ebf4ff;
+  color: #2b6cb0;
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}

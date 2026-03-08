@@ -6,6 +6,7 @@ import { About } from './pages/About'
 import { Projects } from './pages/Projects'
 import { Skills } from './pages/Skills'
 import { Contact } from './pages/Contact'
+import { Profile } from './pages/Profile'
 import './App.css'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/projects" element={<Projects />} />
             <Route path="/skills" element={<Skills />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </main>
         <Footer />
