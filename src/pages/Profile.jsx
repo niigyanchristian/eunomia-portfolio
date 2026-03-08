@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useProfile } from '../context/ProfileContext'
 import { ProfilePhoto } from '../components/ProfilePhoto/ProfilePhoto'
+import { SocialLinks } from '../components/SocialLinks/SocialLinks'
 import './Profile.css'
 
 const BIO_MAX = 500
@@ -135,6 +136,10 @@ export const Profile = () => {
                   onChange={handleChange}
                   placeholder="https://yourwebsite.com"
                 />
+              </div>
+
+              <div className="form-group">
+                <SocialLinks />
               </div>
 
               <div className="profile-actions">
