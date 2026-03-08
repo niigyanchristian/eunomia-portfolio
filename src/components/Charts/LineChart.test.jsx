@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { LineChart } from './LineChart'
 
 vi.mock('recharts', () => ({
-  LineChart: ({ children, data }) => <div data-testid="line-chart">{children}</div>,
+  LineChart: ({ children }) => <div data-testid="line-chart">{children}</div>,
   Line: ({ dataKey, name }) => <div data-testid={`line-${dataKey}`}>{name}</div>,
   XAxis: () => <div data-testid="x-axis" />,
   YAxis: () => <div data-testid="y-axis" />,

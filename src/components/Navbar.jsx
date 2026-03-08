@@ -131,6 +131,16 @@ export const Navbar = () => {
                   >
                     Build Custom Report
                   </Link>
+                  <Link
+                    to="/reports/schedules"
+                    className="navbar-dropdown-link"
+                    onClick={() => {
+                      setIsReportsDropdownOpen(false)
+                      closeMobileMenu()
+                    }}
+                  >
+                    Manage Schedules
+                  </Link>
                 </div>
               )}
             </li>

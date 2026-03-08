@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { LineChart } from '../Charts/LineChart'
 import { BarChart } from '../Charts/BarChart'
 import { PieChart } from '../Charts/PieChart'
 import { AreaChart } from '../Charts/AreaChart'
