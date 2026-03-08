@@ -1,11 +1,14 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useRef, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './Navbar.css'
 
 export const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { isAuthenticated } = useAuth()
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const { isAuthenticated, currentUser, signOut } = useAuth()
+  const navigate = useNavigate()
+  const dropdownRef = useRef(null)
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -14,6 +17,36 @@ export const Navbar = () => {
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false)
   }
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen)
+  }
+
+  const handleLogout = async () => {
+    try {
+      await signOut()
+      setIsDropdownOpen(false)
+      navigate('/')
+    } catch (error) {
+      console.error('Logout failed:', error)
+    }
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false)
+      }
+    }
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isDropdownOpen])
 
   return (
     <nav className="navbar">
@@ -72,6 +105,41 @@ export const Navbar = () => {
               <Link to="/login" className="navbar-link navbar-link-login" onClick={closeMobileMenu}>
                 Login
               </Link>
+            </li>
+          )}
+          {isAuthenticated && (
+            <li className="navbar-item navbar-user-menu" ref={dropdownRef}>
+              <button
+                className="navbar-user-button"
+                onClick={toggleDropdown}
+                aria-expanded={isDropdownOpen}
+                aria-haspopup="true"
+              >
+                <span className="navbar-user-avatar">
+                  {currentUser?.email?.charAt(0).toUpperCase() || 'U'}
+                </span>
+                <span className="navbar-user-email">{currentUser?.email}</span>
+              </button>
+              {isDropdownOpen && (
+                <div className="navbar-dropdown">
+                  <Link
+                    to="/account"
+                    className="navbar-dropdown-item"
+                    onClick={() => {
+                      setIsDropdownOpen(false)
+                      closeMobileMenu()
+                    }}
+                  >
+                    Account Settings
+                  </Link>
+                  <button
+                    className="navbar-dropdown-item navbar-dropdown-logout"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </li>
           )}
         </ul>
