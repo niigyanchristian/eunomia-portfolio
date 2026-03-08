@@ -1,11 +1,12 @@
 .login {
   min-height: calc(100vh - 80px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 2rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
+  overflow-y: auto;
 }
 
 .login::before {
@@ -21,6 +22,8 @@
   max-width: 480px;
   position: relative;
   z-index: 1;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .login-card {
