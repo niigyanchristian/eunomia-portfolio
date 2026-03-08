@@ -124,7 +124,7 @@ describe('Navbar', () => {
   it('should have correct number of navigation items when authenticated', () => {
     renderNavbar({ isAuthenticated: true, currentUser: { email: 'test@example.com' } })
     const menuItems = screen.getAllByRole('listitem')
-    expect(menuItems).toHaveLength(7)
+    expect(menuItems).toHaveLength(8)
   })
 
   it('should show login link when not authenticated', () => {
@@ -226,5 +226,115 @@ describe('Navbar', () => {
     renderNavbar()
     const hamburgerLines = document.querySelectorAll('.hamburger-line')
     expect(hamburgerLines).toHaveLength(3)
+  })
+
+  it('should show user menu when authenticated', () => {
+    const mockUser = { email: 'test@example.com' }
+    renderNavbar({ isAuthenticated: true, currentUser: mockUser })
+    const userButton = screen.getAllByRole('button').find(btn => btn.classList.contains('navbar-user-button'))
+    expect(userButton).toBeInTheDocument()
+  })
+
+  it('should not show user menu when not authenticated', () => {
+    renderNavbar({ isAuthenticated: false })
+    const userButton = document.querySelector('.navbar-user-button')
+    expect(userButton).not.toBeInTheDocument()
+  })
+
+  it('should display user email in navbar', () => {
+    const mockUser = { email: 'user@test.com' }
+    renderNavbar({ isAuthenticated: true, currentUser: mockUser })
+    expect(screen.getByText('user@test.com')).toBeInTheDocument()
+  })
+
+  it('should display first letter of email as avatar', () => {
+    const mockUser = { email: 'alice@example.com' }
+    renderNavbar({ isAuthenticated: true, currentUser: mockUser })
+    expect(screen.getByText('A')).toBeInTheDocument()
+  })
+
+  it('should toggle dropdown menu when user button is clicked', async () => {
+    const user = userEvent.setup()
+    const mockUser = { email: 'test@example.com' }
+    renderNavbar({ isAuthenticated: true, currentUser: mockUser })
+
+    const userButton = screen.getAllByRole('button').find(btn => btn.classList.contains('navbar-user-button'))
+    expect(userButton).toHaveAttribute('aria-expanded', 'false')
+
+    await user.click(userButton)
+
+    expect(userButton).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByText('Account Settings')).toBeInTheDocument()
+    expect(screen.getByText('Logout')).toBeInTheDocument()
+  })
+
+  it('should show dropdown with account settings and logout options', async () => {
+    const user = userEvent.setup()
+    const mockUser = { email: 'test@example.com' }
+    renderNavbar({ isAuthenticated: true, currentUser: mockUser })
+
+    const userButton = screen.getAllByRole('button').find(btn => btn.classList.contains('navbar-user-button'))
+    await user.click(userButton)
+
+    const accountLink = screen.getByRole('link', { name: 'Account Settings' })
+    const logoutButton = screen.getByRole('button', { name: 'Logout' })
+
+    expect(accountLink).toBeInTheDocument()
+    expect(accountLink).toHaveAttribute('href', '/account')
+    expect(logoutButton).toBeInTheDocument()
+  })
+
+  it('should call signOut and navigate to home when logout is clicked', async () => {
+    const user = userEvent.setup()
+    const mockSignOut = vi.fn().mockResolvedValue(undefined)
+    const mockUser = { email: 'test@example.com' }
+
+    renderNavbar({ isAuthenticated: true, currentUser: mockUser, signOut: mockSignOut })
+
+    const userButton = screen.getAllByRole('button').find(btn => btn.classList.contains('navbar-user-button'))
+    await user.click(userButton)
+
+    const logoutButton = screen.getByRole('button', { name: 'Logout' })
+    await user.click(logoutButton)
+
+    expect(mockSignOut).toHaveBeenCalledTimes(1)
+  })
+
+  it('should close dropdown when account settings link is clicked', async () => {
+    const user = userEvent.setup()
+    const mockUser = { email: 'test@example.com' }
+    renderNavbar({ isAuthenticated: true, currentUser: mockUser })
+
+    const userButton = screen.getAllByRole('button').find(btn => btn.classList.contains('navbar-user-button'))
+    await user.click(userButton)
+
+    expect(screen.getByText('Account Settings')).toBeInTheDocument()
+
+    const accountLink = screen.getByRole('link', { name: 'Account Settings' })
+    await user.click(accountLink)
+
+    await vi.waitFor(() => {
+      expect(userButton).toHaveAttribute('aria-expanded', 'false')
+    })
+  })
+
+  it('should handle signOut error gracefully', async () => {
+    const user = userEvent.setup()
+    const mockSignOut = vi.fn().mockRejectedValue(new Error('Sign out failed'))
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const mockUser = { email: 'test@example.com' }
+
+    renderNavbar({ isAuthenticated: true, currentUser: mockUser, signOut: mockSignOut })
+
+    const userButton = screen.getAllByRole('button').find(btn => btn.classList.contains('navbar-user-button'))
+    await user.click(userButton)
+
+    const logoutButton = screen.getByRole('button', { name: 'Logout' })
+    await user.click(logoutButton)
+
+    expect(mockSignOut).toHaveBeenCalledTimes(1)
+    expect(consoleErrorSpy).toHaveBeenCalledWith('Logout failed:', expect.any(Error))
+
+    consoleErrorSpy.mockRestore()
   })
 })

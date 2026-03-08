@@ -9,6 +9,7 @@ import { Contact } from './pages/Contact'
 import { Profile } from './pages/Profile'
 import { ProjectsManager } from './pages/ProjectsManager'
 import { Login } from './pages/Login'
+import { Account } from './pages/Account'
 import './App.css'
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/projects-manager" element={<ProjectsManager />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/account" element={<Account />} />
           </Routes>
         </main>
         <Footer />
