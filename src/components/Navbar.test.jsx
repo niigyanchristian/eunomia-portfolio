@@ -86,7 +86,7 @@ describe('Navbar', () => {
   it('should have correct number of navigation items', () => {
     renderNavbar()
     const menuItems = screen.getAllByRole('listitem')
-    expect(menuItems).toHaveLength(5)
+    expect(menuItems).toHaveLength(6)
   })
 
   it('should render the hamburger menu button', () => {
