@@ -1,0 +1,412 @@
+.report-builder {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+.builder-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.builder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #fff;
+}
+
+.builder-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.close-builder-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.close-builder-btn:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.wizard-steps {
+  display: flex;
+  justify-content: space-between;
+  padding: 32px 32px 24px;
+  background: #fafafa;
+  border-bottom: 1px solid #e0e0e0;
+  overflow-x: auto;
+}
+
+.wizard-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  position: relative;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+
+.wizard-step.active {
+  opacity: 1;
+}
+
+.wizard-step.completed {
+  opacity: 0.8;
+}
+
+.wizard-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -50%;
+  top: 16px;
+  width: 100%;
+  height: 2px;
+  background: #e0e0e0;
+  z-index: 0;
+}
+
+.wizard-step.completed:not(:last-child)::after {
+  background: #28a745;
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.95rem;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.wizard-step.active .step-number {
+  background: #007bff;
+  color: #fff;
+}
+
+.wizard-step.completed .step-number {
+  background: #28a745;
+  color: #fff;
+}
+
+.step-info {
+  flex: 1;
+  min-width: 0;
+  z-index: 1;
+}
+
+.step-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+  white-space: nowrap;
+}
+
+.step-description {
+  font-size: 0.75rem;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.builder-main {
+  padding: 32px;
+  min-height: 500px;
+  background: #fff;
+}
+
+.step-content {
+  max-width: 100%;
+}
+
+.step-header {
+  margin-bottom: 32px;
+}
+
+.step-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.step-header p {
+  margin: 0;
+  font-size: 1rem;
+  color: #666;
+}
+
+.custom-report-option {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.custom-report-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  background: #fff;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.custom-report-btn:hover {
+  background: #f5f5f5;
+  border-color: #007bff;
+}
+
+.custom-report-btn.active {
+  background: #e7f3ff;
+  border-color: #007bff;
+  border-style: solid;
+}
+
+.custom-report-btn .icon {
+  font-size: 1.5rem;
+}
+
+.custom-report-btn .text {
+  font-weight: 500;
+  color: #333;
+}
+
+.layout-config {
+  max-width: 800px;
+}
+
+.config-section {
+  margin-bottom: 24px;
+}
+
+.config-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.config-input,
+.config-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+.config-input:focus,
+.config-textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radio-option,
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.radio-option input,
+.checkbox-option input {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+
+.radio-option span,
+.checkbox-option span {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.preview-section {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+}
+
+.report-summary {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.report-summary h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.summary-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summary-row .label {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.summary-row .value {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.preview-placeholder {
+  background: #fafafa;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.preview-note {
+  text-align: center;
+  color: #999;
+}
+
+.preview-note p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.builder-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-top: 1px solid #e0e0e0;
+  background: #fafafa;
+}
+
+.step-indicator {
+  font-size: 0.95rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.btn-secondary {
+  background: #fff;
+  color: #666;
+  border: 1px solid #ddd;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #f5f5f5;
+}
+
+.btn-success {
+  background: #28a745;
+  color: #fff;
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #218838;
+}
+
+@media (max-width: 1024px) {
+  .wizard-steps {
+    overflow-x: scroll;
+  }
+
+  .wizard-step {
+    min-width: 150px;
+  }
+
+  .preview-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .builder-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .builder-main {
+    padding: 20px;
+  }
+
+  .step-header h2 {
+    font-size: 1.25rem;
+  }
+}

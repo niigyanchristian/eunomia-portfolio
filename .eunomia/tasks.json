@@ -2,17 +2,16 @@
   "project_name": "eunomia-portfolio",
   "tasks": [
     {
-      "task_id": "SETUP-001",
+      "task_id": "INFRA-001",
       "task_type": "infrastructure",
       "recommended_model": "haiku",
-      "title": "Add Firebase Authentication dependencies and configuration",
-      "description": "Add Firebase Authentication to the project.\n\n**Steps:**\n1. Run `npm install firebase` to add Firebase SDK\n2. Create `src/config/firebase.ts` with Firebase configuration (use environment variables for API keys)\n3. Create `.env.example` with Firebase config variable names\n4. Initialize Firebase Auth in the config file\n5. Update `.gitignore` to exclude `.env` if not already present\n\n**Do not commit actual API keys** - use placeholder values in .env.example.",
+      "title": "Add reporting and analytics dependencies",
+      "description": "Install required dependencies for report generation, export, and analytics.\n\n**Dependencies to add:**\n1. `npm install recharts` - for data visualization and charts\n2. `npm install xlsx` - for Excel export functionality\n3. `npm install jspdf jspdf-autotable` - for PDF generation\n4. `npm install pptxgenjs` - for PowerPoint export\n5. `npm install date-fns` - for date calculations (YoY, QoQ analytics)\n6. `npm install html2canvas` - for capturing chart visualizations in exports\n\n**Acceptance:**\n- All packages added to package.json dependencies\n- Run `npm install` successfully\n- No dependency conflicts",
       "dependencies": [],
       "acceptance_criteria": [
-        "firebase package added to package.json",
-        "Firebase config file created with proper TypeScript types",
-        ".env.example created with Firebase variable names",
-        "Firebase Auth initialized and exported from config"
+        "recharts, xlsx, jspdf, jspdf-autotable, pptxgenjs, date-fns, html2canvas added to package.json",
+        "npm install completes without errors",
+        "No peer dependency warnings"
       ],
       "filename": "package.json",
       "language": "typescript"
@@ -21,102 +20,140 @@
       "task_id": "REQ-001",
       "task_type": "feature",
       "recommended_model": "opus",
-      "title": "Create authentication context with session management and persistence",
-      "description": "Build the authentication state management system using Firebase Auth.\n\n**Context:**\n- Review existing context pattern in `src/context/ProfileContext.jsx` and `src/context/ProjectsContext.jsx`\n- Follow the same pattern for consistency\n\n**Implementation:**\n1. Create `src/context/AuthContext.jsx` (or .tsx if using TypeScript)\n2. Implement authentication state:\n   - currentUser (Firebase user object or null)\n   - loading state\n   - error state\n   - isAuthenticated boolean\n3. Implement methods:\n   - `signInWithEmail(email, password)` with rate limiting after 3 failed attempts\n   - `signInWithGoogle()` for social auth\n   - `signOut()` for current device\n   - `signOutAllDevices()` (revoke tokens)\n   - `enableMFA()` / `disableMFA()` stubs for future MFA implementation\n4. Configure Firebase session persistence to 30 days (use `setPersistence(browserLocalPersistence)`)\n5. Log all authentication events (success, failure, logout) to console or Firebase Analytics\n6. Create custom hook `useAuth()` to consume the context\n7. Add error boundary for auth errors\n\n**Security Requirements:**\n- Implement progressive delay on failed login attempts (3s after 3rd attempt, 10s after 5th, etc.)\n- Store failed attempt count in sessionStorage (resets on successful login)\n- Never expose Firebase API keys in client code (use env variables)\n\n**Testing:**\n- Create `src/context/AuthContext.test.jsx`\n- Test login success/failure flows\n- Test rate limiting logic\n- Test session persistence\n- Test logout functionality\n- Mock Firebase Auth methods using vitest mocks",
-      "dependencies": ["SETUP-001"],
+      "title": "Build analytics engine and ReportsContext",
+      "description": "Create the core analytics engine, data models, and state management for reporting.\n\n**Implementation:**\n1. Create `src/utils/analytics.js`:\n   - `calculateYoYComparison(currentData, previousData)` - year-over-year % change\n   - `calculateQoQComparison(currentData, previousData)` - quarter-over-quarter % change\n   - `aggregateMetrics(projects, timeframe)` - aggregate project metrics by time period\n   - `generateTrendData(projects, period)` - create time-series data for charts\n   - Helper functions for date ranges, filtering, grouping\n\n2. Create `src/types/reports.js` (or .ts):\n   - Report template types (executive, detailed, risk, financial, performance, etc.)\n   - Report configuration interface (filters, metrics, date ranges)\n   - Export format types (PDF, Excel, PowerPoint)\n   - Schedule configuration type\n\n3. Create `src/context/ReportsContext.jsx`:\n   - State: availableTemplates, customReports, schedules, exportQueue\n   - Methods:\n     - `generateReport(templateId, config)` - generate report from template\n     - `createCustomReport(config)` - build custom report\n     - `exportReport(reportId, format)` - export to PDF/Excel/PPT\n     - `scheduleReport(reportId, schedule, stakeholders)` - set up automated distribution\n     - `getReportData(reportId)` - fetch report data with analytics\n   - Persist custom reports and schedules in localStorage or Firebase\n\n4. Create `src/services/reportGenerator.js`:\n   - Core logic for transforming project data into report format\n   - Apply filters and date ranges\n   - Calculate metrics and analytics\n   - Format data for visualizations\n\n**Testing:**\n- Create `src/utils/analytics.test.js`\n  - Test YoY calculation with sample data\n  - Test QoQ calculation edge cases (missing quarters)\n  - Test metric aggregation\n  - Test trend data generation\n- Create `src/context/ReportsContext.test.jsx`\n  - Test report generation flow\n  - Test custom report creation\n  - Test schedule management\n  - Mock Firebase/localStorage\n- Create `src/services/reportGenerator.test.js`\n  - Test data transformation\n  - Test filtering logic\n  - Test metric calculations",
+      "dependencies": ["INFRA-001"],
       "acceptance_criteria": [
-        "AuthContext created with all authentication methods",
-        "Session persists for 30 days using Firebase persistence",
-        "Failed login attempts trigger progressive delays after 3 attempts",
-        "All auth events logged",
-        "useAuth hook provides access to auth state and methods",
-        "Comprehensive tests written and passing locally"
+        "Analytics utilities calculate YoY and QoQ comparisons correctly",
+        "ReportsContext manages report state and operations",
+        "Report data models and types defined",
+        "Report generator service transforms project data accurately",
+        "Comprehensive tests written and passing for all modules"
       ],
-      "filename": "src/context/AuthContext.jsx",
+      "filename": "src/context/ReportsContext.jsx",
       "language": "typescript"
     },
     {
       "task_id": "REQ-002",
       "task_type": "feature",
       "recommended_model": "sonnet",
-      "title": "Build login page with email/password and social authentication UI",
-      "description": "Create the login UI component with authentication forms.\n\n**Implementation:**\n1. Create `src/pages/Login.jsx` (and `src/pages/Login.css`)\n2. Build login form:\n   - Email input with validation\n   - Password input with show/hide toggle\n   - \"Remember me\" checkbox (for 30-day persistence)\n   - Submit button with loading state\n   - Error message display\n3. Add social authentication buttons:\n   - \"Sign in with Google\" button\n   - Future: GitHub, Microsoft (add placeholders)\n4. Add link to password reset flow (stub for now)\n5. Display progressive delay message when rate limited (\"Too many attempts. Try again in X seconds\")\n6. Implement form validation:\n   - Valid email format\n   - Minimum password length (8 characters)\n   - Show inline validation errors\n7. On successful login, redirect to home page or intended destination\n8. Style consistently with existing pages (review `src/pages/Profile.jsx`, `src/pages/Profile.css` for patterns)\n\n**Routing:**\n- Add `/login` route to `src/App.jsx`\n- Add login link to navbar for unauthenticated users\n\n**Testing:**\n- Create `src/pages/Login.test.jsx`\n- Test form validation\n- Test email/password login flow\n- Test social auth button clicks\n- Test rate limiting UI display\n- Test redirect on successful login\n- Mock AuthContext and Firebase Auth",
+      "title": "Create report template library with 15+ templates",
+      "description": "Build the pre-configured report template library.\n\n**Implementation:**\n1. Create `src/config/reportTemplates.js`:\n   Define 15+ report templates with configurations:\n   - **Executive Summary** - high-level KPIs, project health, strategic alignment\n   - **Detailed Analysis** - comprehensive project breakdown, timelines, resources\n   - **Risk Report** - risk assessment, mitigation strategies, exposure analysis\n   - **Financial Report** - budget vs actual, cost projections, ROI analysis\n   - **Performance Dashboard** - velocity, completion rates, quality metrics\n   - **Resource Utilization** - team allocation, capacity planning, workload\n   - **Timeline Analysis** - schedule adherence, critical path, milestones\n   - **Quality Metrics** - defect rates, test coverage, code quality\n   - **Stakeholder Report** - progress updates, deliverables, next steps\n   - **Portfolio Health** - overall portfolio status, trends, alerts\n   - **Strategic Alignment** - business value, OKR progress, strategy fit\n   - **Comparative Analysis** - project comparisons, benchmarking\n   - **Trend Report** - historical trends, forecasts, seasonality\n   - **Capacity Planning** - resource forecasts, bottleneck analysis\n   - **ROI Analysis** - value realization, cost-benefit analysis\n\n2. Each template configuration includes:\n   - Template ID, name, description\n   - Default metrics to display\n   - Default visualizations (chart types)\n   - Default time ranges\n   - Suggested filters\n   - Layout structure\n\n3. Create `src/components/Reports/TemplateRenderer.jsx`:\n   - Component that renders any template with provided data\n   - Handles different template layouts\n   - Renders metrics, charts, and tables based on template config\n\n4. Create `src/components/Reports/TemplateSelector.jsx`:\n   - UI to browse and select templates\n   - Template preview cards with descriptions\n   - Search and filter templates by category\n\n**Testing:**\n- Create `src/config/reportTemplates.test.js`\n  - Validate all 15+ templates have required fields\n  - Test template structure and configuration\n- Create `src/components/Reports/TemplateRenderer.test.jsx`\n  - Test rendering different template types\n  - Test data binding\n  - Mock report data\n- Create `src/components/Reports/TemplateSelector.test.jsx`\n  - Test template browsing\n  - Test search/filter functionality",
       "dependencies": ["REQ-001"],
       "acceptance_criteria": [
-        "Login page created with email/password form",
-        "Social authentication buttons present",
-        "Form validation working with helpful error messages",
-        "Progressive delay message shown when rate limited",
-        "Login route added to App.jsx",
-        "Responsive design matching existing pages",
-        "Comprehensive tests written and passing locally"
+        "At least 15 report templates defined with complete configurations",
+        "TemplateRenderer component renders any template correctly",
+        "TemplateSelector provides intuitive template browsing",
+        "All templates include appropriate metrics and visualizations",
+        "Tests written and passing for template system"
       ],
-      "filename": "src/pages/Login.jsx",
+      "filename": "src/config/reportTemplates.js",
       "language": "typescript"
     },
     {
       "task_id": "REQ-003",
       "task_type": "feature",
       "recommended_model": "sonnet",
-      "title": "Implement logout functionality and session management UI",
-      "description": "Add logout capabilities and session management interface.\n\n**Implementation:**\n1. Add logout button to navbar (when user is authenticated)\n   - Modify `src/components/Navbar.jsx`\n   - Show user avatar/email when logged in\n   - Dropdown menu with \"Logout\" option\n2. Create session management page `src/pages/Account.jsx` (optional, could be in profile):\n   - Display current session info (device, login time, IP if available)\n   - \"Logout all devices\" button\n   - Last login timestamp\n   - Optional: MFA settings section (placeholder for future)\n3. Implement logout confirmation dialog (optional, for \"logout all\")\n4. Clear local session data on logout\n5. Redirect to home page after logout\n6. Log logout events (single device vs all devices)\n\n**Testing:**\n- Update `src/components/Navbar.test.jsx` to test logout button\n- Create `src/pages/Account.test.jsx` if account page created\n- Test logout functionality\n- Test \"logout all devices\" flow\n- Test navbar shows correct state (logged in vs logged out)\n- Mock AuthContext",
+      "title": "Build report visualization components",
+      "description": "Create reusable visualization components for reports.\n\n**Implementation:**\n1. Create `src/components/Charts/` directory with chart components:\n   - `LineChart.jsx` - for trend analysis (using recharts)\n   - `BarChart.jsx` - for comparisons and distributions\n   - `PieChart.jsx` - for proportions and breakdowns\n   - `AreaChart.jsx` - for cumulative trends\n   - `ComposedChart.jsx` - for multi-metric visualizations\n   - Each chart should:\n     - Accept data prop in standardized format\n     - Support customizable colors, labels, axes\n     - Be responsive and print-friendly\n     - Show loading and error states\n\n2. Create `src/components/Reports/MetricsCard.jsx`:\n   - Display key metrics with YoY/QoQ comparison\n   - Show percentage change with up/down indicators\n   - Color-coded for positive/negative trends\n   - Support different metric types (currency, percentage, count)\n\n3. Create `src/components/Reports/DataTable.jsx`:\n   - Sortable, filterable table for detailed data\n   - Export table data to CSV\n   - Pagination for large datasets\n   - Customizable columns\n\n4. Create `src/components/Reports/ReportPreview.jsx`:\n   - Main component that combines all visualizations\n   - Renders complete report with charts, tables, and metrics\n   - Print-optimized layout\n   - Export button integration\n\n**Styling:**\n- Create corresponding CSS files for each component\n- Use consistent color scheme for charts\n- Ensure components are responsive and print-friendly\n- Follow existing component patterns in the project\n\n**Testing:**\n- Create test files for each component:\n  - `src/components/Charts/LineChart.test.jsx`\n  - `src/components/Charts/BarChart.test.jsx`\n  - `src/components/Charts/PieChart.test.jsx`\n  - `src/components/Reports/MetricsCard.test.jsx`\n  - `src/components/Reports/DataTable.test.jsx`\n  - `src/components/Reports/ReportPreview.test.jsx`\n- Test rendering with sample data\n- Test interactive features (sorting, filtering)\n- Test responsive behavior\n- Mock recharts components",
       "dependencies": ["REQ-001"],
       "acceptance_criteria": [
-        "Logout button added to navbar for authenticated users",
-        "Logout clears session and redirects to home",
-        "\"Logout all devices\" functionality implemented",
-        "Logout events logged",
-        "Tests written and passing locally"
+        "All chart components render correctly with sample data",
+        "MetricsCard displays YoY/QoQ comparisons accurately",
+        "DataTable supports sorting, filtering, and export",
+        "ReportPreview combines all components into cohesive report view",
+        "Components are responsive and print-friendly",
+        "Comprehensive tests written and passing"
       ],
-      "filename": "src/components/Navbar.jsx",
+      "filename": "src/components/Charts/LineChart.jsx",
       "language": "typescript"
     },
     {
       "task_id": "REQ-004",
       "task_type": "feature",
       "recommended_model": "sonnet",
-      "title": "Add protected routes and authentication guards",
-      "description": "Implement route protection to require authentication for certain pages.\n\n**Implementation:**\n1. Create `src/components/ProtectedRoute.jsx`\n   - Wrapper component that checks authentication state\n   - Redirects to `/login` if not authenticated\n   - Stores intended destination for redirect after login\n   - Shows loading state while checking auth\n2. Wrap protected routes in `src/App.jsx`:\n   - `/profile` should require authentication\n   - `/projects` (if project creation requires auth)\n   - Keep home, about, contact public\n3. Handle auth state loading:\n   - Show loading spinner while Firebase checks session\n   - Prevent flash of login page if user is already authenticated\n4. Implement redirect after login:\n   - If user tried to access `/profile` while logged out, redirect there after login\n   - Store intended URL in sessionStorage or route state\n\n**Testing:**\n- Create `src/components/ProtectedRoute.test.jsx`\n- Test redirect to login when not authenticated\n- Test rendering protected component when authenticated\n- Test loading state\n- Test redirect after successful login\n- Mock AuthContext and React Router",
-      "dependencies": ["REQ-001", "REQ-002"],
+      "title": "Implement custom report builder UI",
+      "description": "Build the custom report builder interface for creating ad-hoc reports.\n\n**Implementation:**\n1. Create `src/pages/ReportBuilder.jsx`:\n   - Multi-step wizard for building custom reports:\n     - Step 1: Select report type (or start from template)\n     - Step 2: Configure filters (date range, projects, tags, status)\n     - Step 3: Select metrics (choose from available KPIs)\n     - Step 4: Choose visualizations (chart types for each metric)\n     - Step 5: Configure layout and formatting\n     - Step 6: Preview and save/export\n   - Save custom reports for reuse\n   - Name and describe custom reports\n\n2. Create `src/components/ReportBuilder/FilterPanel.jsx`:\n   - Date range picker (with presets: last 30 days, last quarter, last year, YTD)\n   - Project multi-select dropdown\n   - Status filter (active, completed, on hold)\n   - Tag/category filter\n   - Custom filter builder\n\n3. Create `src/components/ReportBuilder/MetricsSelector.jsx`:\n   - Checklist of available metrics\n   - Grouped by category (financial, performance, quality, timeline)\n   - Show metric descriptions on hover\n   - Drag-and-drop to reorder selected metrics\n\n4. Create `src/components/ReportBuilder/VisualizationPicker.jsx`:\n   - Select chart type for each metric\n   - Visual preview of chart types\n   - Recommend appropriate chart types for each metric\n\n5. Add route to `src/App.jsx`:\n   - `/reports/builder` for the report builder page\n   - `/reports/:id` for viewing saved reports\n\n6. Create navigation link:\n   - Add \"Reports\" to main navigation (Navbar)\n   - Dropdown with \"View Reports\", \"Build Custom Report\", \"Scheduled Reports\"\n\n**Testing:**\n- Create `src/pages/ReportBuilder.test.jsx`\n  - Test wizard navigation\n  - Test report configuration\n  - Test save functionality\n- Create component tests:\n  - `src/components/ReportBuilder/FilterPanel.test.jsx`\n  - `src/components/ReportBuilder/MetricsSelector.test.jsx`\n  - `src/components/ReportBuilder/VisualizationPicker.test.jsx`\n- Test filter application\n- Test metric selection and reordering\n- Mock ReportsContext",
+      "dependencies": ["REQ-002", "REQ-003"],
       "acceptance_criteria": [
-        "ProtectedRoute component created",
-        "Profile and relevant pages protected by auth",
-        "Unauthenticated users redirected to login",
-        "Redirect to intended page after login works",
-        "Loading state shown during auth check",
-        "Tests written and passing locally"
+        "Report builder wizard guides users through custom report creation",
+        "Filters can be configured and applied correctly",
+        "Metrics can be selected and reordered",
+        "Visualizations can be chosen for each metric",
+        "Custom reports can be saved and loaded",
+        "Route added to App.jsx and navigation updated",
+        "Tests written and passing"
       ],
-      "filename": "src/components/ProtectedRoute.jsx",
+      "filename": "src/pages/ReportBuilder.jsx",
+      "language": "typescript"
+    },
+    {
+      "task_id": "REQ-005",
+      "task_type": "feature",
+      "recommended_model": "opus",
+      "title": "Build multi-format export system (PDF, Excel, PowerPoint)",
+      "description": "Implement export functionality for PDF, Excel, and PowerPoint formats.\n\n**Implementation:**\n1. Create `src/services/exportService.js`:\n   - `exportToPDF(reportData, config)` - generate PDF using jspdf\n     - Include charts (convert to images with html2canvas)\n     - Include tables with jspdf-autotable\n     - Add headers, footers, page numbers\n     - Company branding/logo\n     - Table of contents for multi-page reports\n   - `exportToExcel(reportData, config)` - generate Excel using xlsx\n     - Multiple sheets for different report sections\n     - Include raw data tables\n     - Format cells (headers, currency, percentages)\n     - Add charts if possible (Excel charts)\n     - Include summary sheet with key metrics\n   - `exportToPowerPoint(reportData, config)` - generate PPT using pptxgenjs\n     - Title slide with report name and date\n     - Slides for each major section\n     - Include charts and key metrics\n     - Speaker notes with additional context\n     - Consistent template/theme\n\n2. Create `src/components/Reports/ExportButton.jsx`:\n   - Dropdown button with export format options\n   - Show loading state during export generation\n   - Download file automatically when ready\n   - Handle errors gracefully\n   - Show success message after download\n\n3. Create `src/utils/chartToImage.js`:\n   - Helper to convert chart components to images for PDF/PPT\n   - Use html2canvas to capture rendered charts\n   - Optimize image quality and size\n\n4. Export configuration options:\n   - Page size and orientation (PDF)\n   - Include/exclude certain sections\n   - Date format preferences\n   - Company branding (logo, colors)\n\n**Testing:**\n- Create `src/services/exportService.test.js`\n  - Test PDF generation with sample data\n  - Test Excel generation and verify structure\n  - Test PowerPoint generation\n  - Verify file format validity (basic checks)\n  - Test error handling for malformed data\n- Create `src/components/Reports/ExportButton.test.jsx`\n  - Test export button interaction\n  - Test loading states\n  - Test error handling\n  - Mock exportService\n- Create `src/utils/chartToImage.test.js`\n  - Test chart capture\n  - Mock html2canvas",
+      "dependencies": ["REQ-002", "REQ-003"],
+      "acceptance_criteria": [
+        "PDF export generates professional documents with charts and tables",
+        "Excel export creates multi-sheet workbooks with formatted data",
+        "PowerPoint export produces presentation-ready slides",
+        "Export button provides clear feedback during generation",
+        "All export formats handle errors gracefully",
+        "Comprehensive tests written and passing"
+      ],
+      "filename": "src/services/exportService.js",
+      "language": "typescript"
+    },
+    {
+      "task_id": "REQ-006",
+      "task_type": "feature",
+      "recommended_model": "sonnet",
+      "title": "Implement scheduling and distribution system",
+      "description": "Build automated report scheduling and distribution.\n\n**Implementation:**\n1. Create `src/pages/ReportSchedules.jsx`:\n   - List of scheduled reports\n   - Create new schedule button\n   - Edit/delete existing schedules\n   - View schedule history (past distributions)\n   - Next scheduled run time display\n\n2. Create `src/components/Reports/ScheduleForm.jsx`:\n   - Select report to schedule (template or custom)\n   - Configure frequency:\n     - Daily, Weekly (select days), Monthly (select date), Quarterly, Yearly\n     - Custom cron-like expression for advanced users\n   - Start date and optional end date\n   - Time of day to run\n   - Export format for scheduled report (PDF, Excel, PPT)\n   - Recipient configuration:\n     - Email addresses (comma-separated)\n     - Predefined stakeholder groups\n     - Include report as attachment or download link\n\n3. Create `src/services/schedulerService.js`:\n   - `createSchedule(reportId, config)` - save schedule configuration\n   - `getNextRunTime(schedule)` - calculate next execution time\n   - `executeSchedule(scheduleId)` - generate and distribute report\n   - Store schedules in Firebase or localStorage\n   - Track execution history\n\n4. Create `src/utils/stakeholderGroups.js`:\n   - Manage stakeholder groups (e.g., \"Executives\", \"Project Managers\", \"Team Leads\")\n   - CRUD operations for groups\n   - Associate email addresses with groups\n\n5. Distribution mechanism:\n   - For MVP: generate download links and show notification\n   - Future: integrate with email service (Firebase Functions, SendGrid)\n   - Queue system for managing multiple scheduled reports\n\n6. Add route to `src/App.jsx`:\n   - `/reports/schedules` for schedule management\n   - Update Reports navigation dropdown\n\n**Testing:**\n- Create `src/pages/ReportSchedules.test.jsx`\n  - Test schedule list rendering\n  - Test create/edit/delete operations\n- Create `src/components/Reports/ScheduleForm.test.jsx`\n  - Test form validation\n  - Test frequency configuration\n  - Test recipient management\n- Create `src/services/schedulerService.test.js`\n  - Test schedule creation and storage\n  - Test next run time calculation\n  - Test schedule execution logic\n- Create `src/utils/stakeholderGroups.test.js`\n  - Test group management CRUD\n  - Test email association",
+      "dependencies": ["REQ-004", "REQ-005"],
+      "acceptance_criteria": [
+        "Users can create and manage report schedules",
+        "Frequency options support daily, weekly, monthly, quarterly, yearly",
+        "Stakeholder groups can be defined and managed",
+        "Schedule execution generates and distributes reports",
+        "Next run time calculated correctly",
+        "Route added and navigation updated",
+        "Tests written and passing"
+      ],
+      "filename": "src/pages/ReportSchedules.jsx",
       "language": "typescript"
     },
     {
       "task_id": "QA-001",
       "task_type": "qa_validation",
       "recommended_model": "haiku",
-      "title": "Validate authentication feature tests",
-      "description": "Run the complete test suite for the authentication feature to ensure all functionality works correctly.\n\n**Test files to validate:**\n- src/context/AuthContext.test.jsx\n- src/pages/Login.test.jsx\n- src/pages/Account.test.jsx (if created)\n- src/components/ProtectedRoute.test.jsx\n- src/components/Navbar.test.jsx (updated tests)\n\n**Validation steps:**\n1. Run `npm test` to execute all tests\n2. Verify all authentication tests pass\n3. Check for any console errors or warnings\n4. Verify test coverage for authentication code is reasonable (>80%)\n\n**Success criteria:**\n- All tests pass\n- No TypeScript errors\n- No console errors in test output",
-      "dependencies": ["REQ-001", "REQ-002", "REQ-003", "REQ-004"],
+      "title": "Validate reporting and analytics features",
+      "description": "Run comprehensive test suite for the reporting and analytics system.\n\n**Test files to validate:**\n- src/utils/analytics.test.js\n- src/context/ReportsContext.test.jsx\n- src/services/reportGenerator.test.js\n- src/config/reportTemplates.test.js\n- src/components/Reports/TemplateRenderer.test.jsx\n- src/components/Reports/TemplateSelector.test.jsx\n- src/components/Charts/*.test.jsx (all chart tests)\n- src/components/Reports/MetricsCard.test.jsx\n- src/components/Reports/DataTable.test.jsx\n- src/components/Reports/ReportPreview.test.jsx\n- src/pages/ReportBuilder.test.jsx\n- src/components/ReportBuilder/*.test.jsx (all builder component tests)\n- src/services/exportService.test.js\n- src/components/Reports/ExportButton.test.jsx\n- src/utils/chartToImage.test.js\n- src/pages/ReportSchedules.test.jsx\n- src/components/Reports/ScheduleForm.test.jsx\n- src/services/schedulerService.test.js\n- src/utils/stakeholderGroups.test.js\n\n**Validation steps:**\n1. Run `npm test` to execute all tests\n2. Verify all reporting and analytics tests pass\n3. Check for TypeScript compilation errors\n4. Verify no console errors or warnings\n5. Check test coverage for reporting modules (target >80%)\n6. Run lint checks: `npm run lint`\n\n**Success criteria:**\n- All tests pass\n- No TypeScript errors\n- Lint passes with no errors\n- Test coverage meets minimum threshold",
+      "dependencies": ["REQ-001", "REQ-002", "REQ-003", "REQ-004", "REQ-005", "REQ-006"],
       "acceptance_criteria": [
-        "All authentication tests pass",
+        "All reporting tests pass",
         "No TypeScript compilation errors",
-        "Test coverage adequate for authentication logic"
+        "Lint check passes",
+        "Test coverage adequate (>80% for reporting modules)"
       ],
-      "filename": "src/context/AuthContext.test.jsx",
+      "filename": "src/context/ReportsContext.test.jsx",
       "language": "typescript"
     },
     {
       "task_id": "COMMIT-001",
       "task_type": "commit",
       "recommended_model": "haiku",
-      "title": "Commit authentication feature implementation",
-      "description": "Create a git commit for the complete authentication and session management feature.\n\n**Files to commit:**\n- package.json (Firebase dependency)\n- src/config/firebase.ts\n- .env.example\n- src/context/AuthContext.jsx and test file\n- src/pages/Login.jsx, Login.css, and test file\n- src/pages/Account.jsx (if created) and test file\n- src/components/ProtectedRoute.jsx and test file\n- src/components/Navbar.jsx (modified)\n- src/App.jsx (modified for routes)\n- Any other modified files\n\n**Commit message:**\nfeat: Implement secure authentication with session management\n\n- Add Firebase Authentication integration\n- Create login with email/password and social auth options\n- Implement 30-day session persistence on trusted devices\n- Add logout from current or all devices\n- Implement progressive delay on failed login attempts\n- Add route protection for authenticated pages\n- Log all authentication events for security audit\n\nCloses EUN-75",
+      "title": "Commit reporting and analytics feature implementation",
+      "description": "Create git commit for the complete reporting and analytics system.\n\n**Files to commit:**\n- package.json (new dependencies)\n- src/utils/analytics.js and test\n- src/types/reports.js\n- src/context/ReportsContext.jsx and test\n- src/services/reportGenerator.js and test\n- src/config/reportTemplates.js and test\n- src/components/Reports/ (all report components and tests)\n- src/components/Charts/ (all chart components and tests)\n- src/components/ReportBuilder/ (all builder components and tests)\n- src/pages/ReportBuilder.jsx and test\n- src/pages/ReportSchedules.jsx and test\n- src/services/exportService.js and test\n- src/services/schedulerService.js and test\n- src/utils/chartToImage.js and test\n- src/utils/stakeholderGroups.js and test\n- src/App.jsx (modified for new routes)\n- src/components/Navbar.jsx (modified for Reports navigation)\n- Any other modified files\n\n**Commit message:**\nfeat: Implement comprehensive portfolio reporting and analytics\n\n- Add 15+ pre-configured report templates (executive, detailed, risk, financial, etc.)\n- Build custom report builder with configurable filters, metrics, and visualizations\n- Implement multi-format export (PDF, Excel, PowerPoint)\n- Create automated report scheduling and distribution system\n- Add year-over-year and quarter-over-quarter comparison analytics\n- Include interactive charts and data visualizations using recharts\n- Support stakeholder group management for report distribution\n\nCloses EUN-76\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>",
       "dependencies": ["QA-001"],
       "acceptance_criteria": [
-        "All authentication files committed",
+        "All reporting feature files committed",
         "Commit message follows conventional commit format",
-        "References issue EUN-75"
+        "References issue EUN-76",
+        "Includes co-author attribution"
       ],
-      "filename": "src/context/AuthContext.jsx",
+      "filename": "src/context/ReportsContext.jsx",
       "language": "typescript"
     }
   ]
