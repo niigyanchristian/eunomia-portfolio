@@ -2,55 +2,121 @@
   "project_name": "eunomia-portfolio",
   "tasks": [
     {
+      "task_id": "SETUP-001",
+      "task_type": "infrastructure",
+      "recommended_model": "haiku",
+      "title": "Add Firebase Authentication dependencies and configuration",
+      "description": "Add Firebase Authentication to the project.\n\n**Steps:**\n1. Run `npm install firebase` to add Firebase SDK\n2. Create `src/config/firebase.ts` with Firebase configuration (use environment variables for API keys)\n3. Create `.env.example` with Firebase config variable names\n4. Initialize Firebase Auth in the config file\n5. Update `.gitignore` to exclude `.env` if not already present\n\n**Do not commit actual API keys** - use placeholder values in .env.example.",
+      "dependencies": [],
+      "acceptance_criteria": [
+        "firebase package added to package.json",
+        "Firebase config file created with proper TypeScript types",
+        ".env.example created with Firebase variable names",
+        "Firebase Auth initialized and exported from config"
+      ],
+      "filename": "package.json",
+      "language": "typescript"
+    },
+    {
       "task_id": "REQ-001",
       "task_type": "feature",
       "recommended_model": "opus",
-      "title": "Implement project creation and management feature",
-      "description": "Create a complete project management feature allowing users to create and publish portfolio projects.\n\n**Context:**\n- Review existing ProfileContext pattern in src/context/ProfileContext.jsx\n- Review existing Profile page pattern in src/pages/Profile.jsx\n- Follow component structure patterns (ProfilePhoto, SocialLinks, SkillsInput)\n\n**Files to create:**\n\n1. **ProjectsContext** (src/context/ProjectsContext.jsx):\n   - State management for projects array\n   - Functions: addProject, updateProject, deleteProject, publishProject, saveDraft\n   - Project schema: {id, title, description, completionDate, category, customTags[], projectType, collaborators[{name, role}], status: 'draft'|'published', createdAt, updatedAt}\n   - Provide context to components\n   - Write tests: src/context/ProjectsContext.test.jsx\n\n2. **ProjectForm** (src/components/ProjectForm/):\n   - Create ProjectForm.jsx, ProjectForm.css, ProjectForm.test.jsx\n   - Fields: title (required), description (textarea with 2000 char limit + counter), completion date (date input), category (select: Web Development, Mobile App, Design, Data Science, Other), custom tags (chip input), project type (radio: Personal, Client Work, Collaborative), collaborators (dynamic list with name/role inputs)\n   - Two buttons: \"Save as Draft\" and \"Publish\"\n   - Validation: Draft requires only title (min 3 chars). Publish requires title, description (min 50 chars, max 2000), category, projectType\n   - Show inline validation errors\n   - Support create and edit modes via props\n\n3. **ProjectCard** (src/components/ProjectCard/):\n   - Create ProjectCard.jsx, ProjectCard.css, ProjectCard.test.jsx\n   - Display: title, truncated description (150 chars), category badge, tags chips, project type, status badge (draft/published)\n   - Actions: Edit button, Delete button\n   - Responsive card layout\n\n4. **ProjectsManager Page** (src/pages/ProjectsManager.jsx, ProjectsManager.css, ProjectsManager.test.jsx):\n   - Display all user's projects using ProjectCard components\n   - Filter tabs: All, Drafts, Published\n   - \"+ Create New Project\" button opens ProjectForm\n   - Edit: Click card's edit button to open ProjectForm with project data\n   - Delete: Show confirmation dialog before deletion\n   - Empty states for each filter\n\n5. **Update App.jsx**:\n   - Import and wrap app with ProjectsContext.Provider (after ProfileContext)\n   - Add route: /projects-manager → ProjectsManager component\n\n6. **Update Navbar.jsx**:\n   - Add \"Manage Projects\" link to /projects-manager in navigation\n\n**Validation Rules:**\n- Title: required, 3-100 chars\n- Description: 0-2000 chars\n- Completion date: optional, cannot be future date\n- Category: required for publish\n- Project type: required for publish\n- Draft: requires only title\n- Publish: requires title, description (min 50 chars), category, projectType\n\n**Write comprehensive tests:**\n- Test all components with @testing-library/react and vitest\n- Test validation rules (draft vs publish requirements)\n- Test character counter for description\n- Test collaborator add/remove\n- Test tag input functionality\n- Test filter tabs in ProjectsManager\n- Test edit and delete workflows\n- Mock ProjectsContext in tests\n- Test routing integration\n\n**Style Guidelines:**\n- Follow existing CSS patterns from Profile.css and other components\n- Use existing color scheme and spacing\n- Ensure mobile responsiveness\n- Match existing button and form input styles",
-      "dependencies": [],
+      "title": "Create authentication context with session management and persistence",
+      "description": "Build the authentication state management system using Firebase Auth.\n\n**Context:**\n- Review existing context pattern in `src/context/ProfileContext.jsx` and `src/context/ProjectsContext.jsx`\n- Follow the same pattern for consistency\n\n**Implementation:**\n1. Create `src/context/AuthContext.jsx` (or .tsx if using TypeScript)\n2. Implement authentication state:\n   - currentUser (Firebase user object or null)\n   - loading state\n   - error state\n   - isAuthenticated boolean\n3. Implement methods:\n   - `signInWithEmail(email, password)` with rate limiting after 3 failed attempts\n   - `signInWithGoogle()` for social auth\n   - `signOut()` for current device\n   - `signOutAllDevices()` (revoke tokens)\n   - `enableMFA()` / `disableMFA()` stubs for future MFA implementation\n4. Configure Firebase session persistence to 30 days (use `setPersistence(browserLocalPersistence)`)\n5. Log all authentication events (success, failure, logout) to console or Firebase Analytics\n6. Create custom hook `useAuth()` to consume the context\n7. Add error boundary for auth errors\n\n**Security Requirements:**\n- Implement progressive delay on failed login attempts (3s after 3rd attempt, 10s after 5th, etc.)\n- Store failed attempt count in sessionStorage (resets on successful login)\n- Never expose Firebase API keys in client code (use env variables)\n\n**Testing:**\n- Create `src/context/AuthContext.test.jsx`\n- Test login success/failure flows\n- Test rate limiting logic\n- Test session persistence\n- Test logout functionality\n- Mock Firebase Auth methods using vitest mocks",
+      "dependencies": ["SETUP-001"],
       "acceptance_criteria": [
-        "User can create new project with title, description (up to 2000 characters), and completion date",
-        "User can categorize projects using predefined categories (Web Development, Mobile App, Design, Data Science, Other) and custom tags",
-        "User can specify project type (personal, client work, collaborative)",
-        "User can add collaborators with role attribution",
-        "User can save projects as draft or publish immediately",
-        "System validates required fields before allowing publication",
-        "Description shows character counter (x/2000)",
-        "Filter tabs work correctly (All, Drafts, Published)",
-        "Edit and delete operations work as expected",
-        "All tests pass with good coverage"
+        "AuthContext created with all authentication methods",
+        "Session persists for 30 days using Firebase persistence",
+        "Failed login attempts trigger progressive delays after 3 attempts",
+        "All auth events logged",
+        "useAuth hook provides access to auth state and methods",
+        "Comprehensive tests written and passing locally"
       ],
-      "filename": "src/context/ProjectsContext.jsx",
+      "filename": "src/context/AuthContext.jsx",
+      "language": "typescript"
+    },
+    {
+      "task_id": "REQ-002",
+      "task_type": "feature",
+      "recommended_model": "sonnet",
+      "title": "Build login page with email/password and social authentication UI",
+      "description": "Create the login UI component with authentication forms.\n\n**Implementation:**\n1. Create `src/pages/Login.jsx` (and `src/pages/Login.css`)\n2. Build login form:\n   - Email input with validation\n   - Password input with show/hide toggle\n   - \"Remember me\" checkbox (for 30-day persistence)\n   - Submit button with loading state\n   - Error message display\n3. Add social authentication buttons:\n   - \"Sign in with Google\" button\n   - Future: GitHub, Microsoft (add placeholders)\n4. Add link to password reset flow (stub for now)\n5. Display progressive delay message when rate limited (\"Too many attempts. Try again in X seconds\")\n6. Implement form validation:\n   - Valid email format\n   - Minimum password length (8 characters)\n   - Show inline validation errors\n7. On successful login, redirect to home page or intended destination\n8. Style consistently with existing pages (review `src/pages/Profile.jsx`, `src/pages/Profile.css` for patterns)\n\n**Routing:**\n- Add `/login` route to `src/App.jsx`\n- Add login link to navbar for unauthenticated users\n\n**Testing:**\n- Create `src/pages/Login.test.jsx`\n- Test form validation\n- Test email/password login flow\n- Test social auth button clicks\n- Test rate limiting UI display\n- Test redirect on successful login\n- Mock AuthContext and Firebase Auth",
+      "dependencies": ["REQ-001"],
+      "acceptance_criteria": [
+        "Login page created with email/password form",
+        "Social authentication buttons present",
+        "Form validation working with helpful error messages",
+        "Progressive delay message shown when rate limited",
+        "Login route added to App.jsx",
+        "Responsive design matching existing pages",
+        "Comprehensive tests written and passing locally"
+      ],
+      "filename": "src/pages/Login.jsx",
+      "language": "typescript"
+    },
+    {
+      "task_id": "REQ-003",
+      "task_type": "feature",
+      "recommended_model": "sonnet",
+      "title": "Implement logout functionality and session management UI",
+      "description": "Add logout capabilities and session management interface.\n\n**Implementation:**\n1. Add logout button to navbar (when user is authenticated)\n   - Modify `src/components/Navbar.jsx`\n   - Show user avatar/email when logged in\n   - Dropdown menu with \"Logout\" option\n2. Create session management page `src/pages/Account.jsx` (optional, could be in profile):\n   - Display current session info (device, login time, IP if available)\n   - \"Logout all devices\" button\n   - Last login timestamp\n   - Optional: MFA settings section (placeholder for future)\n3. Implement logout confirmation dialog (optional, for \"logout all\")\n4. Clear local session data on logout\n5. Redirect to home page after logout\n6. Log logout events (single device vs all devices)\n\n**Testing:**\n- Update `src/components/Navbar.test.jsx` to test logout button\n- Create `src/pages/Account.test.jsx` if account page created\n- Test logout functionality\n- Test \"logout all devices\" flow\n- Test navbar shows correct state (logged in vs logged out)\n- Mock AuthContext",
+      "dependencies": ["REQ-001"],
+      "acceptance_criteria": [
+        "Logout button added to navbar for authenticated users",
+        "Logout clears session and redirects to home",
+        "\"Logout all devices\" functionality implemented",
+        "Logout events logged",
+        "Tests written and passing locally"
+      ],
+      "filename": "src/components/Navbar.jsx",
+      "language": "typescript"
+    },
+    {
+      "task_id": "REQ-004",
+      "task_type": "feature",
+      "recommended_model": "sonnet",
+      "title": "Add protected routes and authentication guards",
+      "description": "Implement route protection to require authentication for certain pages.\n\n**Implementation:**\n1. Create `src/components/ProtectedRoute.jsx`\n   - Wrapper component that checks authentication state\n   - Redirects to `/login` if not authenticated\n   - Stores intended destination for redirect after login\n   - Shows loading state while checking auth\n2. Wrap protected routes in `src/App.jsx`:\n   - `/profile` should require authentication\n   - `/projects` (if project creation requires auth)\n   - Keep home, about, contact public\n3. Handle auth state loading:\n   - Show loading spinner while Firebase checks session\n   - Prevent flash of login page if user is already authenticated\n4. Implement redirect after login:\n   - If user tried to access `/profile` while logged out, redirect there after login\n   - Store intended URL in sessionStorage or route state\n\n**Testing:**\n- Create `src/components/ProtectedRoute.test.jsx`\n- Test redirect to login when not authenticated\n- Test rendering protected component when authenticated\n- Test loading state\n- Test redirect after successful login\n- Mock AuthContext and React Router",
+      "dependencies": ["REQ-001", "REQ-002"],
+      "acceptance_criteria": [
+        "ProtectedRoute component created",
+        "Profile and relevant pages protected by auth",
+        "Unauthenticated users redirected to login",
+        "Redirect to intended page after login works",
+        "Loading state shown during auth check",
+        "Tests written and passing locally"
+      ],
+      "filename": "src/components/ProtectedRoute.jsx",
       "language": "typescript"
     },
     {
       "task_id": "QA-001",
       "task_type": "qa_validation",
       "recommended_model": "haiku",
-      "title": "Validate project management feature tests",
-      "description": "Run the complete test suite for the new project management feature to ensure all functionality works correctly.\n\n**Test files to validate:**\n- src/context/ProjectsContext.test.jsx\n- src/components/ProjectForm/ProjectForm.test.jsx\n- src/components/ProjectCard/ProjectCard.test.jsx\n- src/pages/ProjectsManager.test.jsx\n\n**Run command:**\nnpm test -- --run\n\nEnsure:\n- All project-related tests pass\n- No regressions in existing tests\n- Validation logic works (draft vs publish)\n- CRUD operations function correctly",
-      "dependencies": ["REQ-001"],
+      "title": "Validate authentication feature tests",
+      "description": "Run the complete test suite for the authentication feature to ensure all functionality works correctly.\n\n**Test files to validate:**\n- src/context/AuthContext.test.jsx\n- src/pages/Login.test.jsx\n- src/pages/Account.test.jsx (if created)\n- src/components/ProtectedRoute.test.jsx\n- src/components/Navbar.test.jsx (updated tests)\n\n**Validation steps:**\n1. Run `npm test` to execute all tests\n2. Verify all authentication tests pass\n3. Check for any console errors or warnings\n4. Verify test coverage for authentication code is reasonable (>80%)\n\n**Success criteria:**\n- All tests pass\n- No TypeScript errors\n- No console errors in test output",
+      "dependencies": ["REQ-001", "REQ-002", "REQ-003", "REQ-004"],
       "acceptance_criteria": [
-        "All new project management tests pass",
-        "No test failures or errors",
-        "Existing tests remain passing (no regressions)"
+        "All authentication tests pass",
+        "No TypeScript compilation errors",
+        "Test coverage adequate for authentication logic"
       ],
-      "filename": "src/components/ProjectForm/ProjectForm.test.jsx",
+      "filename": "src/context/AuthContext.test.jsx",
       "language": "typescript"
     },
     {
       "task_id": "COMMIT-001",
       "task_type": "commit",
       "recommended_model": "haiku",
-      "title": "Commit project management feature implementation",
-      "description": "Create a git commit for the complete project management feature.\n\n**Files to commit:**\n- src/context/ProjectsContext.jsx and tests\n- src/components/ProjectForm/ (component, styles, tests)\n- src/components/ProjectCard/ (component, styles, tests)\n- src/pages/ProjectsManager.jsx, ProjectsManager.css, ProjectsManager.test.jsx\n- Modified src/App.jsx (context provider and routing)\n- Modified src/components/Navbar.jsx (new navigation link)\n\n**Commit message format:**\nfeat: Implement project creation and management feature\n\n- Add ProjectsContext for state management\n- Create ProjectForm with validation (draft vs publish)\n- Implement ProjectCard component for project display\n- Add ProjectsManager page with filtering (All, Drafts, Published)\n- Support full CRUD operations on projects\n- Validate required fields before publication\n- Add character counter for 2000-char description limit\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>",
+      "title": "Commit authentication feature implementation",
+      "description": "Create a git commit for the complete authentication and session management feature.\n\n**Files to commit:**\n- package.json (Firebase dependency)\n- src/config/firebase.ts\n- .env.example\n- src/context/AuthContext.jsx and test file\n- src/pages/Login.jsx, Login.css, and test file\n- src/pages/Account.jsx (if created) and test file\n- src/components/ProtectedRoute.jsx and test file\n- src/components/Navbar.jsx (modified)\n- src/App.jsx (modified for routes)\n- Any other modified files\n\n**Commit message:**\nfeat: Implement secure authentication with session management\n\n- Add Firebase Authentication integration\n- Create login with email/password and social auth options\n- Implement 30-day session persistence on trusted devices\n- Add logout from current or all devices\n- Implement progressive delay on failed login attempts\n- Add route protection for authenticated pages\n- Log all authentication events for security audit\n\nCloses EUN-75",
       "dependencies": ["QA-001"],
       "acceptance_criteria": [
-        "All new and modified files are staged and committed",
+        "All authentication files committed",
         "Commit message follows conventional commit format",
-        "Working tree is clean after commit"
+        "References issue EUN-75"
       ],
-      "filename": "src/context/ProjectsContext.jsx",
+      "filename": "src/context/AuthContext.jsx",
       "language": "typescript"
     }
   ]
