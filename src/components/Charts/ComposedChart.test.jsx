@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { ComposedChart } from './ComposedChart'
 
 vi.mock('recharts', () => ({
-  ComposedChart: ({ children, data }) => <div data-testid="composed-chart">{children}</div>,
+  ComposedChart: ({ children }) => <div data-testid="composed-chart">{children}</div>,
   Line: ({ dataKey, name }) => <div data-testid={`line-${dataKey}`}>{name}</div>,
   Bar: ({ dataKey, name }) => <div data-testid={`bar-${dataKey}`}>{name}</div>,
   Area: ({ dataKey, name }) => <div data-testid={`area-${dataKey}`}>{name}</div>,

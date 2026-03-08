@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { BarChart } from './BarChart'
 
 vi.mock('recharts', () => ({
-  BarChart: ({ children, data }) => <div data-testid="bar-chart">{children}</div>,
+  BarChart: ({ children }) => <div data-testid="bar-chart">{children}</div>,
   Bar: ({ dataKey, name }) => <div data-testid={`bar-${dataKey}`}>{name}</div>,
   XAxis: () => <div data-testid="x-axis" />,
   YAxis: () => <div data-testid="y-axis" />,

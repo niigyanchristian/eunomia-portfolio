@@ -222,7 +222,7 @@ export default function TemplateRenderer({ templateId, data, config = {} }) {
     }
   }
 
-  const renderDataTable = (reportData, metrics) => {
+  const renderDataTable = (reportData) => {
     if (!reportData.projectDetails && !Array.isArray(reportData)) {
       return <p>No detailed data available</p>
     }

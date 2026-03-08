@@ -5,7 +5,6 @@ import TemplateSelector from '../components/Reports/TemplateSelector'
 import FilterPanel from '../components/ReportBuilder/FilterPanel'
 import MetricsSelector from '../components/ReportBuilder/MetricsSelector'
 import VisualizationPicker from '../components/ReportBuilder/VisualizationPicker'
-import ReportPreview from '../components/Reports/ReportPreview'
 import './ReportBuilder.css'
 
 const STEPS = [

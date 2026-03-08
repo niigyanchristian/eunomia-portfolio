@@ -1,6 +1,6 @@
-import { aggregateMetrics, generateTrendData, filterProjectsByDateRange, groupProjectsByCategory, groupProjectsByStatus, calculateYoYComparison, calculateQoQComparison } from '../utils/analytics'
-import { DEFAULT_TEMPLATES, ReportTemplateType } from '../types/reports'
-import { format, parseISO, subYears, subQuarters } from 'date-fns'
+import { generateTrendData, filterProjectsByDateRange, groupProjectsByCategory, groupProjectsByStatus, calculateYoYComparison, calculateQoQComparison } from '../utils/analytics'
+import { DEFAULT_TEMPLATES } from '../types/reports'
+import { parseISO, subYears, subQuarters } from 'date-fns'
 
 function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).substr(2, 9)

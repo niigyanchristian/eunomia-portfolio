@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { AreaChart } from './AreaChart'
 
 vi.mock('recharts', () => ({
-  AreaChart: ({ children, data }) => <div data-testid="area-chart">{children}</div>,
+  AreaChart: ({ children }) => <div data-testid="area-chart">{children}</div>,
   Area: ({ dataKey, name }) => <div data-testid={`area-${dataKey}`}>{name}</div>,
   XAxis: () => <div data-testid="x-axis" />,
   YAxis: () => <div data-testid="y-axis" />,
