@@ -160,6 +160,43 @@ describe('Profile Page', () => {
     })
   })
 
+  describe('Preview toggle', () => {
+    it('clicking Preview Profile in edit mode renders ProfilePreview', () => {
+      renderProfile()
+      fireEvent.click(screen.getByRole('button', { name: /edit profile/i }))
+      fireEvent.click(screen.getByRole('button', { name: /preview profile/i }))
+
+      expect(screen.getByTestId('profile-preview')).toBeInTheDocument()
+      expect(screen.queryByLabelText('Name')).not.toBeInTheDocument()
+    })
+
+    it('clicking Back to Edit renders the edit form', () => {
+      renderProfile()
+      fireEvent.click(screen.getByRole('button', { name: /edit profile/i }))
+      fireEvent.click(screen.getByRole('button', { name: /preview profile/i }))
+      fireEvent.click(screen.getByRole('button', { name: /back to edit/i }))
+
+      expect(screen.getByLabelText('Name')).toBeInTheDocument()
+      expect(screen.queryByTestId('profile-preview')).not.toBeInTheDocument()
+    })
+
+    it('clicking Preview Profile from view mode also renders ProfilePreview', () => {
+      renderProfile()
+      fireEvent.click(screen.getByRole('button', { name: /preview profile/i }))
+
+      expect(screen.getByTestId('profile-preview')).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: /edit profile/i })).not.toBeInTheDocument()
+    })
+
+    it('Back to Edit button is shown in preview mode', () => {
+      renderProfile()
+      fireEvent.click(screen.getByRole('button', { name: /edit profile/i }))
+      fireEvent.click(screen.getByRole('button', { name: /preview profile/i }))
+
+      expect(screen.getByRole('button', { name: /back to edit/i })).toBeInTheDocument()
+    })
+  })
+
   describe('Cancel behavior', () => {
     it('discards unsaved changes when Cancel is clicked', async () => {
       renderProfile()
