@@ -193,6 +193,11 @@ export const Profile = () => {
                   {profile.email && <p><span>Email:</span>{profile.email}</p>}
                   {profile.phone && <p><span>Phone:</span>{profile.phone}</p>}
                   {profile.website && <p><span>Website:</span>{profile.website}</p>}
+                  {!profile.name && !profile.headline && !profile.bio && (
+                    <p className="profile-empty-hint">
+                      Click <strong>Edit Profile</strong> to add your name, headline, bio, and more.
+                    </p>
+                  )}
                 </div>
               )}
             </>

@@ -32,6 +32,21 @@
   box-shadow: var(--shadow-lg);
 }
 
+.profile-empty-hint {
+  margin-top: 1rem;
+  padding: 0.875rem 1.25rem;
+  background-color: var(--color-background-alt);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.profile-empty-hint strong {
+  color: var(--color-primary);
+}
+
 .profile-view h2 {
   font-size: 1.5rem;
   margin-bottom: 1.25rem;
