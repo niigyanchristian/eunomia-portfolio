@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useProfile } from '../context/ProfileContext'
 import { ProfilePhoto } from '../components/ProfilePhoto/ProfilePhoto'
 import { SocialLinks } from '../components/SocialLinks/SocialLinks'
+import { SkillsInput } from '../components/SkillsInput/SkillsInput'
 import './Profile.css'
 
 const BIO_MAX = 500
@@ -135,6 +136,14 @@ export const Profile = () => {
                   value={draft.website}
                   onChange={handleChange}
                   placeholder="https://yourwebsite.com"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Skills</label>
+                <SkillsInput
+                  skills={draft.skills || []}
+                  onChange={(skills) => setDraft((prev) => ({ ...prev, skills }))}
                 />
               </div>
 
