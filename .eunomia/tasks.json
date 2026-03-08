@@ -4,114 +4,54 @@
     {
       "task_id": "REQ-001",
       "task_type": "feature",
-      "recommended_model": "sonnet",
-      "title": "Create profile data model, state management, and core profile form",
-      "description": "Create the core profile infrastructure for the portfolio app. Read `src/App.jsx`, `src/pages/About.jsx`, `src/pages/About.css`, `src/main.jsx`, and `src/components/Navbar.jsx` to understand existing structure and conventions.\n\n1. Create `src/context/ProfileContext.jsx` — a React Context that manages profile state using localStorage for persistence. The profile shape should include: { name, headline, bio (max 500 chars), location, email, phone, website, photoUrl, socialLinks, skills }. Provide a `saveProfile` function that writes to localStorage.\n\n2. Create `src/pages/Profile.jsx` — a new page component (following the pattern of `src/pages/About.jsx`) that renders:\n   - A profile edit form when in edit mode\n   - Fields: name (text), headline (text), bio (textarea, 500 char limit with live counter), location (text), email (text), phone (text), website (text)\n   - Save and Cancel buttons\n   - An 'Edit Profile' button when not in edit mode\n   - A 'Preview Profile' button to toggle preview mode (implemented later in REQ-005)\n\n3. Create `src/pages/Profile.css` following the patterns in `src/pages/About.css`.\n\n4. Wrap the app with ProfileProvider in `src/main.jsx`.\n\n5. Add a `/profile` route to `src/App.jsx` and add a 'Profile' nav link to `src/components/Navbar.jsx` following the existing nav link pattern.\n\n6. Write tests in `src/pages/Profile.test.jsx` following patterns from `src/sections/Contact.test.jsx`. Test: form renders with all fields, bio character counter works and enforces 500 char limit, save button writes to localStorage, cancel button discards unsaved changes.",
+      "recommended_model": "opus",
+      "title": "Implement project creation and management feature",
+      "description": "Create a complete project management feature allowing users to create and publish portfolio projects.\n\n**Context:**\n- Review existing ProfileContext pattern in src/context/ProfileContext.jsx\n- Review existing Profile page pattern in src/pages/Profile.jsx\n- Follow component structure patterns (ProfilePhoto, SocialLinks, SkillsInput)\n\n**Files to create:**\n\n1. **ProjectsContext** (src/context/ProjectsContext.jsx):\n   - State management for projects array\n   - Functions: addProject, updateProject, deleteProject, publishProject, saveDraft\n   - Project schema: {id, title, description, completionDate, category, customTags[], projectType, collaborators[{name, role}], status: 'draft'|'published', createdAt, updatedAt}\n   - Provide context to components\n   - Write tests: src/context/ProjectsContext.test.jsx\n\n2. **ProjectForm** (src/components/ProjectForm/):\n   - Create ProjectForm.jsx, ProjectForm.css, ProjectForm.test.jsx\n   - Fields: title (required), description (textarea with 2000 char limit + counter), completion date (date input), category (select: Web Development, Mobile App, Design, Data Science, Other), custom tags (chip input), project type (radio: Personal, Client Work, Collaborative), collaborators (dynamic list with name/role inputs)\n   - Two buttons: \"Save as Draft\" and \"Publish\"\n   - Validation: Draft requires only title (min 3 chars). Publish requires title, description (min 50 chars, max 2000), category, projectType\n   - Show inline validation errors\n   - Support create and edit modes via props\n\n3. **ProjectCard** (src/components/ProjectCard/):\n   - Create ProjectCard.jsx, ProjectCard.css, ProjectCard.test.jsx\n   - Display: title, truncated description (150 chars), category badge, tags chips, project type, status badge (draft/published)\n   - Actions: Edit button, Delete button\n   - Responsive card layout\n\n4. **ProjectsManager Page** (src/pages/ProjectsManager.jsx, ProjectsManager.css, ProjectsManager.test.jsx):\n   - Display all user's projects using ProjectCard components\n   - Filter tabs: All, Drafts, Published\n   - \"+ Create New Project\" button opens ProjectForm\n   - Edit: Click card's edit button to open ProjectForm with project data\n   - Delete: Show confirmation dialog before deletion\n   - Empty states for each filter\n\n5. **Update App.jsx**:\n   - Import and wrap app with ProjectsContext.Provider (after ProfileContext)\n   - Add route: /projects-manager → ProjectsManager component\n\n6. **Update Navbar.jsx**:\n   - Add \"Manage Projects\" link to /projects-manager in navigation\n\n**Validation Rules:**\n- Title: required, 3-100 chars\n- Description: 0-2000 chars\n- Completion date: optional, cannot be future date\n- Category: required for publish\n- Project type: required for publish\n- Draft: requires only title\n- Publish: requires title, description (min 50 chars), category, projectType\n\n**Write comprehensive tests:**\n- Test all components with @testing-library/react and vitest\n- Test validation rules (draft vs publish requirements)\n- Test character counter for description\n- Test collaborator add/remove\n- Test tag input functionality\n- Test filter tabs in ProjectsManager\n- Test edit and delete workflows\n- Mock ProjectsContext in tests\n- Test routing integration\n\n**Style Guidelines:**\n- Follow existing CSS patterns from Profile.css and other components\n- Use existing color scheme and spacing\n- Ensure mobile responsiveness\n- Match existing button and form input styles",
       "dependencies": [],
       "acceptance_criteria": [
-        "ProfileContext provides profile state and saveProfile function via React Context",
-        "Profile page renders an edit form with name, headline, bio, location, email, phone, website fields",
-        "Bio textarea enforces 500-character limit with a live counter display",
-        "Save writes to localStorage within 2 seconds",
-        "Cancel discards unsaved changes and reverts to saved state",
-        "/profile route is accessible and linked in the Navbar",
-        "Tests pass for form rendering, field input, char counter, save, and cancel behaviors"
+        "User can create new project with title, description (up to 2000 characters), and completion date",
+        "User can categorize projects using predefined categories (Web Development, Mobile App, Design, Data Science, Other) and custom tags",
+        "User can specify project type (personal, client work, collaborative)",
+        "User can add collaborators with role attribution",
+        "User can save projects as draft or publish immediately",
+        "System validates required fields before allowing publication",
+        "Description shows character counter (x/2000)",
+        "Filter tabs work correctly (All, Drafts, Published)",
+        "Edit and delete operations work as expected",
+        "All tests pass with good coverage"
       ],
-      "filename": "src/pages/Profile.jsx",
-      "language": "jsx"
-    },
-    {
-      "task_id": "REQ-002",
-      "task_type": "feature",
-      "recommended_model": "sonnet",
-      "title": "Implement profile photo upload with client-side resizing to 400x400px",
-      "description": "Create a profile photo upload component that resizes images client-side. Read `src/pages/Profile.jsx` and `src/context/ProfileContext.jsx` (created in REQ-001) before starting.\n\n1. Create `src/components/ProfilePhoto/ProfilePhoto.jsx` — a component that:\n   - Displays the current profile photo from ProfileContext, or a default SVG avatar placeholder if none is set\n   - Has an upload overlay/button that appears on hover\n   - Uses a hidden `<input type='file' accept='image/*'>` for file selection\n   - On file select, uses the Canvas API to resize the image: center-crop to a square, then scale to 400x400px\n   - Converts the canvas to a base64 data URL and calls `saveProfile` from ProfileContext to persist `photoUrl`\n   - Shows a loading indicator while processing the image\n\n2. Create `src/components/ProfilePhoto/ProfilePhoto.css`.\n\n3. Integrate `<ProfilePhoto />` into `src/pages/Profile.jsx` at the top of the profile form section.\n\n4. Write tests in `src/components/ProfilePhoto/ProfilePhoto.test.jsx`. Mock `HTMLCanvasElement.prototype.getContext` and file reading. Test: renders placeholder SVG when no photoUrl, upload button triggers file input click, component calls saveProfile with a data URL after file selection.",
-      "dependencies": ["REQ-001"],
-      "acceptance_criteria": [
-        "ProfilePhoto renders a default placeholder when no photo is set",
-        "Clicking the upload button/overlay triggers the hidden file input",
-        "Selected image is center-cropped and resized to 400x400px using Canvas API",
-        "Resized image is saved as a base64 data URL via ProfileContext saveProfile",
-        "Loading state is shown during image processing",
-        "ProfilePhoto component is rendered in the Profile page form",
-        "Tests pass for placeholder rendering, upload trigger, and save behavior"
-      ],
-      "filename": "src/components/ProfilePhoto/ProfilePhoto.jsx",
-      "language": "jsx"
-    },
-    {
-      "task_id": "REQ-003",
-      "task_type": "feature",
-      "recommended_model": "sonnet",
-      "title": "Implement social media links manager with automatic platform icon recognition",
-      "description": "Create a social media links manager component. Read `src/pages/Profile.jsx` and `src/context/ProfileContext.jsx` before starting.\n\n1. Create `src/components/SocialLinks/SocialLinks.jsx` — a component that:\n   - Displays up to 10 social media links, each with a URL text input and auto-detected platform label\n   - Detects the platform from the URL hostname: github.com→GitHub, linkedin.com→LinkedIn, twitter.com/x.com→Twitter/X, instagram.com→Instagram, youtube.com→YouTube, facebook.com→Facebook, dribbble.com→Dribbble, behance.net→Behance, stackoverflow.com→Stack Overflow, dev.to→Dev.to, and 'Link' as fallback\n   - Has an 'Add Link' button that appends a new empty link entry (disabled when 10 links are already added)\n   - Each link row has a Remove button that deletes that entry\n   - On change/blur, the updated links array is saved via ProfileContext `saveProfile`\n\n2. Create `src/components/SocialLinks/SocialLinks.css`.\n\n3. Integrate `<SocialLinks />` into `src/pages/Profile.jsx` within the edit form.\n\n4. Write tests in `src/components/SocialLinks/SocialLinks.test.jsx`. Test: renders empty state with Add Link button, clicking Add Link shows a new URL input, entering a GitHub URL auto-labels it 'GitHub', Add button is disabled when 10 links exist, Remove button deletes the corresponding link entry.",
-      "dependencies": ["REQ-001"],
-      "acceptance_criteria": [
-        "SocialLinks renders existing links and an Add Link button",
-        "Platform label auto-detected from URL hostname for at least 10 known platforms plus a fallback",
-        "Maximum of 10 links enforced — Add Link button is disabled when limit is reached",
-        "Remove button deletes the corresponding link",
-        "Link changes are saved to ProfileContext",
-        "SocialLinks is rendered in the Profile page form",
-        "Tests pass for all described behaviors"
-      ],
-      "filename": "src/components/SocialLinks/SocialLinks.jsx",
-      "language": "jsx"
-    },
-    {
-      "task_id": "REQ-004",
-      "task_type": "feature",
-      "recommended_model": "sonnet",
-      "title": "Implement skills input with autocomplete suggestions",
-      "description": "Create a skills input component with dropdown autocomplete. Read `src/pages/Profile.jsx` and `src/context/ProfileContext.jsx` before starting.\n\n1. Create `src/components/SkillsInput/SkillsInput.jsx` — a component that:\n   - Displays currently added skills as removable tag chips\n   - Has a text input; as the user types, filters a predefined skills list and shows a dropdown of matching suggestions\n   - Predefined list must include at minimum: JavaScript, TypeScript, React, Vue, Angular, Node.js, Python, Java, CSS, HTML, GraphQL, REST API, Git, Docker, AWS, SQL, MongoDB, PostgreSQL, Redis, Next.js, Tailwind CSS, Jest, Figma, DevOps, CI/CD\n   - Clicking a suggestion or pressing Enter adds the skill as a tag and clears the input\n   - Pressing Escape closes the dropdown without adding a skill\n   - Each tag has an X button to remove the skill\n   - Duplicate skills are silently ignored\n   - Skills array is saved to ProfileContext on every change\n\n2. Create `src/components/SkillsInput/SkillsInput.css`.\n\n3. Integrate `<SkillsInput />` into `src/pages/Profile.jsx` within the edit form.\n\n4. Write tests in `src/components/SkillsInput/SkillsInput.test.jsx`. Test: existing skills render as tags, typing 'React' shows React in dropdown, clicking a suggestion adds the tag and clears input, pressing Enter adds the tag, pressing Escape closes dropdown, clicking X on a tag removes it, adding a duplicate skill is ignored.",
-      "dependencies": ["REQ-001"],
-      "acceptance_criteria": [
-        "Skills display as removable tag chips",
-        "Typing filters the predefined suggestion list in real time",
-        "Clicking a suggestion or pressing Enter adds the skill and clears the input",
-        "Pressing Escape closes the dropdown without adding a skill",
-        "Duplicate skills are not added",
-        "X button on each tag removes that skill",
-        "Skills array is persisted via ProfileContext",
-        "SkillsInput is rendered in the Profile page form",
-        "Tests pass for all described behaviors"
-      ],
-      "filename": "src/components/SkillsInput/SkillsInput.jsx",
-      "language": "jsx"
-    },
-    {
-      "task_id": "REQ-005",
-      "task_type": "feature",
-      "recommended_model": "sonnet",
-      "title": "Implement public profile preview mode",
-      "description": "Create a read-only profile preview and wire up the preview toggle in the Profile page. Read `src/pages/Profile.jsx`, `src/context/ProfileContext.jsx`, `src/components/ProfilePhoto/ProfilePhoto.jsx`, `src/components/SocialLinks/SocialLinks.jsx`, and `src/components/SkillsInput/SkillsInput.jsx` before starting.\n\n1. Create `src/components/ProfilePreview/ProfilePreview.jsx` — a read-only display component that:\n   - Reads all profile data from ProfileContext\n   - Displays: profile photo (or placeholder), name, headline, bio, location, email, phone, website\n   - Displays social links as clickable `<a>` elements with `target='_blank' rel='noopener noreferrer'` and their platform labels\n   - Displays skills as non-interactive tag chips (no X button, no input)\n   - Contains zero form inputs or edit controls\n\n2. Create `src/components/ProfilePreview/ProfilePreview.css`.\n\n3. Update `src/pages/Profile.jsx` to add a preview toggle:\n   - Add a 'Preview Profile' button visible in edit mode that switches to preview mode showing `<ProfilePreview />`\n   - Add a 'Back to Edit' button in preview mode that returns to the edit form\n   - The toggle does not affect saved data\n\n4. Write tests in `src/components/ProfilePreview/ProfilePreview.test.jsx`: renders name, headline, bio, location from context, social links render as anchor elements with correct href, skills render as non-interactive chips, no form inputs are present.\n\n5. Add tests to `src/pages/Profile.test.jsx` for the toggle: clicking 'Preview Profile' renders ProfilePreview, clicking 'Back to Edit' renders the form again.",
-      "dependencies": ["REQ-001", "REQ-002", "REQ-003", "REQ-004"],
-      "acceptance_criteria": [
-        "ProfilePreview renders photo, name, headline, bio, location, email, phone, website from ProfileContext",
-        "Social links render as clickable anchor tags opening in a new tab",
-        "Skills render as read-only tag chips with no interactive controls",
-        "No form inputs or edit controls appear in ProfilePreview",
-        "'Preview Profile' button in edit mode switches to preview mode",
-        "'Back to Edit' button in preview mode returns to the edit form",
-        "Tests pass for preview rendering and toggle behavior"
-      ],
-      "filename": "src/components/ProfilePreview/ProfilePreview.jsx",
-      "language": "jsx"
+      "filename": "src/context/ProjectsContext.jsx",
+      "language": "typescript"
     },
     {
       "task_id": "QA-001",
       "task_type": "qa_validation",
       "recommended_model": "haiku",
-      "title": "Validate all profile feature tests pass with no regressions",
-      "description": "Run the full test suite to validate the profile feature and check for regressions.\n\n1. Run each new test file individually to get clear output:\n   - `npx vitest run src/pages/Profile.test.jsx`\n   - `npx vitest run src/components/ProfilePhoto/ProfilePhoto.test.jsx`\n   - `npx vitest run src/components/SocialLinks/SocialLinks.test.jsx`\n   - `npx vitest run src/components/SkillsInput/SkillsInput.test.jsx`\n   - `npx vitest run src/components/ProfilePreview/ProfilePreview.test.jsx`\n2. Run the full suite for regression checks: `npx vitest run`\n3. Report any failures with full test names and error messages.\n4. Do NOT modify production code. Only fix test files if the test itself has a clear bug (wrong query, missing mock). Report any production code bugs found.",
-      "dependencies": ["REQ-001", "REQ-002", "REQ-003", "REQ-004", "REQ-005"],
+      "title": "Validate project management feature tests",
+      "description": "Run the complete test suite for the new project management feature to ensure all functionality works correctly.\n\n**Test files to validate:**\n- src/context/ProjectsContext.test.jsx\n- src/components/ProjectForm/ProjectForm.test.jsx\n- src/components/ProjectCard/ProjectCard.test.jsx\n- src/pages/ProjectsManager.test.jsx\n\n**Run command:**\nnpm test -- --run\n\nEnsure:\n- All project-related tests pass\n- No regressions in existing tests\n- Validation logic works (draft vs publish)\n- CRUD operations function correctly",
+      "dependencies": ["REQ-001"],
       "acceptance_criteria": [
-        "All 5 new test files pass with 0 failures",
-        "No regressions in existing tests (Home, About, Projects, Skills, Contact, Navbar, Footer, App)",
-        "npx vitest run exits with code 0"
+        "All new project management tests pass",
+        "No test failures or errors",
+        "Existing tests remain passing (no regressions)"
       ],
-      "filename": "src/pages/Profile.test.jsx",
-      "language": "jsx"
+      "filename": "src/components/ProjectForm/ProjectForm.test.jsx",
+      "language": "typescript"
+    },
+    {
+      "task_id": "COMMIT-001",
+      "task_type": "commit",
+      "recommended_model": "haiku",
+      "title": "Commit project management feature implementation",
+      "description": "Create a git commit for the complete project management feature.\n\n**Files to commit:**\n- src/context/ProjectsContext.jsx and tests\n- src/components/ProjectForm/ (component, styles, tests)\n- src/components/ProjectCard/ (component, styles, tests)\n- src/pages/ProjectsManager.jsx, ProjectsManager.css, ProjectsManager.test.jsx\n- Modified src/App.jsx (context provider and routing)\n- Modified src/components/Navbar.jsx (new navigation link)\n\n**Commit message format:**\nfeat: Implement project creation and management feature\n\n- Add ProjectsContext for state management\n- Create ProjectForm with validation (draft vs publish)\n- Implement ProjectCard component for project display\n- Add ProjectsManager page with filtering (All, Drafts, Published)\n- Support full CRUD operations on projects\n- Validate required fields before publication\n- Add character counter for 2000-char description limit\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>",
+      "dependencies": ["QA-001"],
+      "acceptance_criteria": [
+        "All new and modified files are staged and committed",
+        "Commit message follows conventional commit format",
+        "Working tree is clean after commit"
+      ],
+      "filename": "src/context/ProjectsContext.jsx",
+      "language": "typescript"
     }
   ]
 }

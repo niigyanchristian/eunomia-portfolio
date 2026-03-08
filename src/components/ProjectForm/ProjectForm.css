@@ -1,0 +1,308 @@
+.project-form {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+}
+
+.project-form-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-primary);
+  font-weight: 700;
+}
+
+.project-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.project-form .form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.project-form .form-group input,
+.project-form .form-group textarea,
+.project-form .form-group select {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md, 8px);
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  background-color: #fff;
+  transition: border-color var(--transition-base);
+  font-family: inherit;
+}
+
+.project-form .form-group input:focus,
+.project-form .form-group textarea:focus,
+.project-form .form-group select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.project-form .form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.char-counter {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  text-align: right;
+}
+
+.char-counter.at-limit {
+  color: #e53e3e;
+  font-weight: 600;
+}
+
+.form-error {
+  font-size: 0.85rem;
+  color: var(--color-error);
+  margin-top: 0.15rem;
+}
+
+.tags-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background-color: var(--color-background-alt);
+  border: 1px solid var(--color-border);
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  color: var(--color-text-primary);
+}
+
+.tag-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  padding: 0;
+  line-height: 1;
+}
+
+.tag-remove:hover {
+  color: var(--color-error);
+}
+
+.tag-input {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md, 8px);
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  background-color: #fff;
+  transition: border-color var(--transition-base);
+  font-family: inherit;
+}
+
+.tag-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.radio-group {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--color-text-primary);
+  font-weight: 400;
+}
+
+.radio-label input[type="radio"] {
+  accent-color: var(--color-primary);
+}
+
+.collaborators-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.collaborators-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.collaborator-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-background-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md, 8px);
+  font-size: 0.9rem;
+}
+
+.collaborator-info {
+  color: var(--color-text-primary);
+}
+
+.collaborator-info span {
+  color: var(--color-text-secondary);
+}
+
+.collaborator-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  padding: 0 0.25rem;
+  line-height: 1;
+}
+
+.collaborator-remove:hover {
+  color: var(--color-error);
+}
+
+.collaborator-inputs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.collaborator-inputs input {
+  flex: 1;
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md, 8px);
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  background-color: #fff;
+  transition: border-color var(--transition-base);
+  font-family: inherit;
+}
+
+.collaborator-inputs input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.btn-add-collab {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+}
+
+.btn-add-collab:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.project-form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.btn-draft {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  padding: 0.875rem 2.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  letter-spacing: 0.01em;
+}
+
+.btn-draft:hover {
+  background-color: var(--color-primary);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.btn-publish {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 0.875rem 2.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+  letter-spacing: 0.01em;
+}
+
+.btn-publish:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  background-color: var(--color-primary-dark);
+}
+
+.btn-publish:active,
+.btn-draft:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .project-form {
+    padding: 1.75rem;
+  }
+
+  .project-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn-draft,
+  .btn-publish,
+  .project-form-actions .btn-cancel {
+    width: 100%;
+    text-align: center;
+    padding: 0.8rem 2rem;
+    font-size: 0.95rem;
+  }
+
+  .collaborator-inputs {
+    flex-direction: column;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
