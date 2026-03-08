@@ -191,8 +191,9 @@ export default function ReportBuilder() {
             </div>
             <div className="layout-config">
               <div className="config-section">
-                <label className="config-label">Report Title</label>
+                <label className="config-label" htmlFor="report-title">Report Title</label>
                 <input
+                  id="report-title"
                   type="text"
                   value={reportConfig.title}
                   onChange={(e) => setReportConfig({ ...reportConfig, title: e.target.value })}
@@ -202,8 +203,9 @@ export default function ReportBuilder() {
               </div>
 
               <div className="config-section">
-                <label className="config-label">Description</label>
+                <label className="config-label" htmlFor="report-description">Description</label>
                 <textarea
+                  id="report-description"
                   value={reportConfig.description}
                   onChange={(e) => setReportConfig({ ...reportConfig, description: e.target.value })}
                   placeholder="Enter report description (optional)"
@@ -224,7 +226,7 @@ export default function ReportBuilder() {
                         checked={reportConfig.layout.columns === cols}
                         onChange={() => handleLayoutChange('columns', cols)}
                       />
-                      <span>{cols} Column{cols > 1 ? 's' : ''}</span>
+                      {cols} Column{cols > 1 ? 's' : ''}
                     </label>
                   ))}
                 </div>
@@ -344,9 +346,11 @@ export default function ReportBuilder() {
           </div>
 
           {currentStep < STEPS.length ? (
-            <button onClick={handleNext} disabled={!canProceed()} className="btn btn-primary">
-              Next
-            </button>
+            <div onClick={handleNext} className="next-btn-wrapper">
+              <button disabled={!canProceed()} className="btn btn-primary">
+                Next
+              </button>
+            </div>
           ) : (
             <button onClick={handleSaveReport} disabled={!canProceed() || loading} className="btn btn-success">
               {loading ? 'Saving...' : 'Save Report'}
