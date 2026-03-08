@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import { ProfilePhoto } from './ProfilePhoto'
 import { ProfileContext } from '../../context/ProfileContext'
@@ -67,6 +67,7 @@ describe('ProfilePhoto', () => {
 
     // Capture the FileReader instance that the component creates
     let capturedReader = null
+    // eslint-disable-next-line no-unused-vars
     const OriginalFileReader = globalThis.FileReader
     function MockFileReader() {
       capturedReader = this
@@ -78,6 +79,7 @@ describe('ProfilePhoto', () => {
 
     // Capture the Image instance
     let capturedImage = null
+    // eslint-disable-next-line no-unused-vars
     const OriginalImage = globalThis.Image
     function MockImage() {
       capturedImage = this

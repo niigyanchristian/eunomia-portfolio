@@ -60,6 +60,11 @@ export const Navbar = () => {
               Profile
             </Link>
           </li>
+          <li className="navbar-item">
+            <Link to="/projects-manager" className="navbar-link" onClick={closeMobileMenu}>
+              Manage Projects
+            </Link>
+          </li>
         </ul>
       </div>
       {isMobileMenuOpen && (

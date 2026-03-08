@@ -7,6 +7,7 @@ import { Projects } from './pages/Projects'
 import { Skills } from './pages/Skills'
 import { Contact } from './pages/Contact'
 import { Profile } from './pages/Profile'
+import { ProjectsManager } from './pages/ProjectsManager'
 import './App.css'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="/skills" element={<Skills />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/projects-manager" element={<ProjectsManager />} />
           </Routes>
         </main>
         <Footer />
