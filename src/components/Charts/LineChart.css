@@ -1,0 +1,57 @@
+.chart-container {
+  width: 100%;
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container.loading,
+.chart-container.error,
+.chart-container.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  color: #6b7280;
+}
+
+.chart-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.chart-error-message {
+  color: #ef4444;
+  font-size: 14px;
+}
+
+.chart-empty-message {
+  font-size: 14px;
+}
+
+@media print {
+  .chart-container {
+    box-shadow: none;
+    border: 1px solid #e5e7eb;
+    page-break-inside: avoid;
+  }
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 0.75rem;
+  }
+}
